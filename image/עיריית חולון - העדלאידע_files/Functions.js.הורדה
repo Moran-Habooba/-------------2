@@ -1,0 +1,2499 @@
+﻿var langID = getLandID();
+
+function extraPageLoad() {
+	setImageTable();
+	//reWriteTable();			 		
+	setFreeSearchFilter();
+	
+	if($(".formGeneratorEnvelope").length > 0){
+		$(".signatureControl a[title='נגן קול']").addClass("fa fa-volume-up").html("<span class=changeColor>נגן קול</span>");
+		$(".signatureControl a[title='שנה תמונה']").addClass("fa fa-retweet").html("<span class=changeColor>שנה תמונה</span>");
+		$(".signatureControl a[title='הורד קובץ שמע']").addClass("fa fa-download").html("<span class=changeColor>הורד קובץ שמע</span>");
+		$(".buttonsTable .updateButton input").addClass("changeBackgroundColor");
+		$(".buttonsTable .resetButton input").addClass("changeColor");
+		$(".formGeneratorEnvelope input[type='text'][title='ת.ז.'],.formGeneratorEnvelope input[type='text'][title='תעודת זהות'],.formGeneratorEnvelope input[type='text'][title*='תעודת זהות']").attr("extraValidationFunction", "extraValidationFunction").attr("extraValidationFunctionErrMessage", "תעודת זהות אינה חוקית");																						
+
+		$(".formGeneratorEnvelope input[type='text'][title*='תאריך'][title*='שע']").not(".hasDatepicker").each(function (){		
+			var textBox = $(this).clone();
+			var id = textBox.attr("id");		
+			var table = $('<div dir=rtl class="calendarFormEnv divTable">'+
+								'<div class="divTableRow">'+
+									'<div class="divTableCell"><select id="min' + id + '" class="timeMin" aria-label="בחר את זמן האירוע בדקות" title="בחר את זמן האירוע בדקות"></select></div>'+
+									'<div class="divTableCell timeComma">:</div>'+
+									'<div class="divTableCell"><select id="hour' + id + '" class="timeHour" aria-label="בחר את זמן האירוע בשעות" title="בחר את זמן האירוע בשעות"></select></div>'+
+									'<div class="divTableCell">&#160;&#160;</div>'+
+									'<div class="divTableCell dateFieldPlace"></div>'+
+									'<div class="divTableCell"><a aria-hidden="true" title="תאריכון" aria-label="תאריכון" class="fa fa-calendar calendarButton datepickerFromFocus" href="javascript:showDatePicker(\'' + id + '\')"></a></div>'+
+								'</div>'+
+							'</div>');
+			
+			textBox.attr("maxlength", 16);
+			if($(".dynamicFormLayout").length != 0){
+				table.addClass("divTableFull");
+				table.find(".dateFieldPlace").addClass("divTableCellFull");
+			}
+			
+			table.find(".dateFieldPlace").append(textBox);		
+			$(this).replaceWith(table);		
+				
+			setDateTimePickerForm(id, 'hour' + id, 'min' + id);					
+		});
+		
+		$(".formGeneratorEnvelope input[type='text'][title*='תאריך']").not(".hasDatepicker").each(function (){										
+			var textBox = $(this).clone();
+			var id = textBox.attr("id");		
+			var table = $('<div dir=rtl class="calendarFormEnv divTable">'+
+							'<div class="divTableRow">'+
+								'<div class="divTableCell dateFieldPlace"></div>'+
+								'<div class="divTableCell"><a aria-hidden="true" title="תאריכון" aria-label="תאריכון" class="fa fa-calendar calendarButton datepickerFromFocus" href="javascript:showDatePicker(\'' + id + '\')"></a></div>'+
+							'</div>'+
+						'</div>');
+			
+			textBox.attr("maxlength", 10);
+			if($(".dynamicFormLayout").length != 0){
+				table.addClass("divTableFull");
+				table.find(".dateFieldPlace").addClass("divTableCellFull");
+			}
+			
+			table.find(".dateFieldPlace").append(textBox);		
+			$(this).replaceWith(table);		
+				
+			setDatePickerForm(id);					
+		});	
+	}
+		
+	if(accIsAdmin()){
+        animateAnchors("#siteOnly");
+        backTop("#siteOnly");
+        fixOpenPopUpPageURL();
+        sortAdminSelect();
+    }
+    else{
+	 	animateAnchors("html,body");
+	  	backTop(document);
+	}					  	
+			
+	//$(window).resize(reWriteTableResize);
+	
+	presentationTable();		
+	
+	if(langID == "h"){
+		setTimeout(function (){ $(".x-tree-node-el").not(".x-tree-node-leaf").find(".x-tree-node-anchor span").attr("dir", "rtl");	}, 1000);		
+	}
+	
+	fixMainUrls();	
+	
+	setTimeout(function (){
+		$("a.fa, a.fas, a.fab, a.far, label.fa, div.fa, span.fa").attr("aria-hidden", "false");
+		const observerCall = new MutationObserver(function(mutationsList, observer) {
+			$("a.fa[aria-hidden='true'],a.fas[aria-hidden='true'],a.fab[aria-hidden='true'],a.far[aria-hidden='true'],label.fa[aria-hidden='true'],div.fa[aria-hidden='true'],span.fa[aria-hidden='true']").attr("aria-hidden", "false");
+		});
+
+		observerCall.observe($(document)[0], {attributes: true, childList: true, subtree: true});
+	}, 1000);
+}
+
+function fixOpenPopUpPageURL(){	
+	$(".ms-listviewtable td").each(function (){
+		var txt = $(this).text();
+		if(txt.indexOf("OpenPopUpPage") != -1) $(this).html(txt);
+	});
+}
+
+function setServicesImage2(parentEnv){
+	$("." + parentEnv + " li .img").each(function (){
+		if($(this).find("img").length != 0) $(this).css("background-image", "url('" + $(this).find("img").attr("src") + "')");
+  	});
+}
+
+function setSameHeightPro(){
+	setTimeout(function (){setSameHeightProActive()}, 1000);
+	$(window).resize(function (){setSameHeightProActive()})
+}
+
+function setSameHeightProActive(){
+	$(".proLeft iframe").css("height", $(".proRight").height()-$(".proLeft .listItemMapCaption").height()-12 + "px");
+}
+
+function extraChangeBackground(){
+	$(".homeBox .fullLink").each(function (){
+		$(this).style("background-color", "transparent", "important");
+	});		
+}
+
+function extraChangeFont() {
+	setTopLevelMenu();
+}
+
+function extraChangeFontDefault() {
+	setTopLevelMenu();
+}
+
+function setFreeSearchFilter(){ $(".freeSearch").attr("autocomplete", "off").keypress(function (e){freeSearchFilterKeyPress(e)});}
+
+function freeSearchFilterKeyPress(e) {
+	if(e.keyCode != 13) return;
+   	e.preventDefault();
+   	$(".searchButton")[0].click();
+}
+
+function extraValidationFunction(input){
+	if(accIsTZ(input, true, true) != 1) return false;		
+	return true;			      	
+}
+
+function backTop(overflowSelector){
+	$(overflowSelector).scroll(function(){
+		if ($(this).scrollTop() > 200)
+			$(".back-to-top").fadeIn(300);
+		else
+			$(".back-to-top").fadeOut(300);
+	});
+}
+
+function animateAnchors(overflowSelector){	
+	$("a[href^='#'][href!='#top']").each(function (){
+  		$(this).click(function() {
+			var a = $("a[name='" + $(this).attr("href") + "']");
+			if(a.length == 0) return;
+  			$(overflowSelector).animate({scrollTop: (overflowSelector == "#siteOnly") ? a.offset().top - ($(overflowSelector).offset().top - $(overflowSelector)[0].scrollTop) : a.offset().top}, "slow");
+  		});
+  	});  	  	
+	
+	$("a[href='#top']").click(function() { $(overflowSelector).animate({ scrollTop: 0 }, "slow"); return false;});
+}
+
+function openMegera(pos){			
+var env = $(".generalFilter");	
+var last = accGetAttributeValue(env.attr("last"));	
+	
+	if(last != "") closeMegera(last);		
+	
+	var ttl = env.find("tr.litsBoxItem" + pos + " .megeraButton a span").text().replace("פתח", "סגור");
+	
+	env.attr("last", pos);
+	env.find("tr.megeraRow" + pos).removeClass("displayNone").attr("aria-hidden", "false");	
+	env.find("tr.litsBoxItem" + pos + " .megeraButton a").addClass("fa-angle-up").removeClass("fa-angle-down").attr("href", "javascript:closeMegera(" + pos + ")").find("span").html(ttl);		
+	env.find("tr.megeraRow" + pos + " .megeraRowDataEnv").slideDown("fast").attr("aria-expanded", "true").attr("aria-hidden", "false");					
+}
+
+function closeMegera(pos){
+var env = $(".generalFilter");	
+
+	env.find("tr.megeraRow" + pos + " .megeraRowDataEnv").attr("aria-expanded", "false").attr("aria-hidden", "true").slideUp("fast", function (){
+		$(".generalFilter tr.megeraRow" + pos).addClass("displayNone").attr("aria-hidden", "true");
+	});
+	
+	var ttl = env.find("tr.litsBoxItem" + pos + " .megeraButton a span").text().replace("סגור", "פתח");
+	env.find("tr.litsBoxItem" + pos + " .megeraButton a").attr("href", "javascript:openMegera(" + pos + ")").addClass("fa-angle-down").removeClass("fa-angle-up").find("span").html(ttl);
+}
+
+function reWriteTableResize(){
+	if(!accIsMobile()){
+		$("table.reWriteTable").each(function (j){
+			var table = $(this);
+
+			table.find("th.reWriteTH").remove();
+			table.find("td.reWriteTD").remove();
+			table.find("th.displayNone").removeClass("displayNone");
+			table.find("td.displayNone").removeClass("displayNone");
+			table.find("tr.reWrtieRow").remove();
+			table.removeClass("reWriteTable").removeClass("reWriteTable" + j);
+		});
+		return;
+	}
+
+	if($("table.reWriteTable").length <= 0)	reWriteTable();
+}
+
+function reWriteTable(){
+	if(!accIsMobile()) return;
+		
+	$("table.ms-listviewtable,table.ms-rteTable-Design1").each(function (j) {				
+		var tHead = null;
+		var tBody = null;
+		var table = $(this)
+		var thArray = new Array();	
+		
+		if(table.find("thead th").length < 4) return;
+		
+		table.addClass("hiddenElement reWriteTable reWriteTable" + j);
+		
+		if(table.find("thead").length <= 0){			
+			tHead = table.find("tr:first-child");
+			tBody = table.find("tr").not("tr:first-child,tr.megeraRow");
+		}
+		else{
+			tHead = table.find("thead tr");
+			tBody = table.find("tbody tr").not("tr.megeraRow");
+		}
+		
+		tHead.find("th").addClass("displayNone");
+		tHead.find("th:nth-child(1),th:nth-child(2),th:nth-child(3)").removeClass("displayNone");
+		tHead.append("<th class=reWriteTH>&nbsp;</th>");	
+			
+		tHead.find("th.displayNone").not("th.megeraHead").each(function (i){
+			thArray.push($(this).text());
+		});				
+				
+		tBody.find("td").not("td[filter1=true],td[filter2=true]").addClass("displayNone");
+		tBody.find("td:nth-child(1),td:nth-child(2),td:nth-child(3)").removeClass("displayNone");
+		
+		tBody.each(function (index){			
+			var row = $(this);
+			
+			row.attr("index", index).append("<td class='reWriteTD reWriteTD" + index + "'><a class='reWriteButton fa fa-angle-down' href='javascript:openReWriteRow(" + j + "," + index + ")' title='פתח מידע נוסף' aria-label='פתח מידע נוסף'></a></td>");
+			row.after("<tr index=" + index + " class='reWrtieRow reWrtieRow" + index + " displayNone " + row.attr("class") + "' aria-hidden='true'><td colspan=20><div class='reWrtieData reWrtieData" + index + " displayNone'></div></td></tr>");
+			
+			var reWrtieData = table.find(".reWrtieData" + index);			
+			
+			row.find("td.displayNone").not("td.megeraData,td.megeraButton").each(function (i){				
+				if($(this).text() != ""){
+					reWrtieData.append("<strong>" + thArray[i] + "</strong><br/>");
+					reWrtieData.append($(this).html() + "<div class='itemHeightSpaceSmall'></div>");
+				}
+			});
+						
+			row.find("td.megeraButtonStay").each(function (){								
+				reWrtieData.append("<div class='megeraButton megeraButtonMore'>" + $(this).html() + "</div>");
+			});
+		});	
+		table.removeClass("hiddenElement");
+	});			
+}
+
+function openReWriteRow(j, index){			
+var table = $("table.reWriteTable" + j);
+var last = accGetAttributeValue(table.attr("last"));	
+	
+	if(last != "") closeReWriteRow(j, last);
+	
+	table.attr("last", index);
+
+	var row = table.find("tr.reWrtieRow" + index);
+	row.removeClass("displayNone");
+	row.find(".reWrtieData").slideDown("fast");
+	table.find("td.reWriteTD" + index + " .reWriteButton").attr("href", "javascript:closeReWriteRow(" + j + "," + index + ")").attr("title", "סגור מידע נוסף").attr("aria-lable", "סגור מידע נוסף").addClass("fa-angle-up").removeClass("fa-angle-down");		
+}
+
+function closeReWriteRow(j, index){
+var table = $("table.reWriteTable" + j);
+	
+	table.find("td.reWriteTD" + index + " .reWriteButton").attr("href", "javascript:openReWriteRow(" + j + "," + index + ")").attr("title", "פתח מידע נוסף").attr("aria-lable", "פתח מידע נוסף").addClass("fa-angle-down").removeClass("fa-angle-up")
+	table.find("tr.reWrtieRow" + index + " .reWrtieData").slideUp("fast", function (){
+		table.find("tr.reWrtieRow" + index).addClass("displayNone");
+	});
+}
+
+function presentationTable(){ $("table.ms-rteTable-Design5").attr("role", "presentation");}
+function setImageTable(){ 
+	var a = $("table.ms-rteTable-Design5 tr:first td").length;
+	
+	$("table.ms-rteTable-Design5 td").css("width", 100/a + "%");
+	$("table.ms-rteTable-Design5").attr("role", "presentation").attr("aria-label", "טבלה לתצוגת תמונות בלבד. אין כותרות בטבלה זו");
+}
+
+function setServicesImage(parentEnv){		
+	if($("." + parentEnv + " li .img img").length == 0) return;
+	
+	if(parentEnv == "fotBanners"){
+		$("." + parentEnv + " li").each(function (){
+			if($(this).find(".img img").length != 0){
+				var a = $(this).find(".lnk a");
+				a.css("background-image", "url('" + $(this).find(".img img").attr("src") + "')");	
+				a.attr("title", a.text()).attr("aria-label", a.text());
+				a.html("<span class='displayNoneIndent'>" + a.text() + "</span>");
+			}
+	  	});
+		return;
+	}
+	
+  	$("." + parentEnv + " li").each(function (){
+		if($(this).find(".img img").length != 0) $(this).find(".lnk a").css("background-image", "url('" + $(this).find(".img img").attr("src") + "')");		
+  	});
+}
+
+function setImgToBck(parentEnv){
+	if($("." + parentEnv + " .img").length == 0) return;
+	$("." + parentEnv + " .img").each(function (){
+		if($(this).find("img").length != 0)
+			$(this).css("background-image", "url('" + $(this).find("img").attr("src") + "')");		
+  	});  	  	
+}
+
+function openSearchPopUp(){ 
+	$(".searchLink")[0].focus();
+	openSearchPopUpActive($(".searchPopUpInner"), $(".searchLink"));
+}
+function openSearchPopUpMob(){ openSearchPopUpActive($(".searchPopUpInnerMob"), $(".searchLinkMob")); }
+
+function openSearchPopUpActive(searchPopUpInner, searchLink){
+var ttl = searchLink.attr("title");
+
+	if(searchPopUpInner.css("display") == "none"){
+		ttl = ttl.replace("פתח", "סגור").replace("Open", "Close");
+		searchLink.addClass("searchLinkSelected").attr("title", ttl).attr("aria-label", ttl);
+		searchPopUpInner.slideDown("fast").attr("aria-hidden", "false");
+	}
+	else{
+		ttl = ttl.replace("סגור", "פתח").replace("Close", "Open");
+		searchLink.removeClass("searchLinkSelected").attr("title", ttl).attr("aria-label", ttl);
+		searchPopUpInner.slideUp("fast").attr("aria-hidden", "true");
+	}
+}
+
+function setHomeImage(parentEnv){			
+  	$("." + parentEnv + " li .img").each(function (){
+		$(this).css("background-image", "url('" + $(this).find("img").attr("src") + "')");		
+  	});  	  
+  	
+	$("." + parentEnv + " li .env.hidden-xs").each(function (){  		
+  		var pos = $(this).attr("pos");  		
+  		var t = $(this).find(".lnk a").text();
+  		
+  		$(this).mouseover(function (){showText(pos)}).mouseout(function (){hideText(pos)});
+  		$(this).find("*").focus(function (){showText(pos)}).blur(function (){hideText(pos)}).mouseover(function (){showText(pos)}).mouseout(function (){hideText(pos)});  		  		
+  		$(this).find(".fullLink").attr("href", $(this).find(".lnk a").attr("href")).attr("title", t).attr("aria-label", t)  		
+  		$(this).find(".lnk a").replaceWith("<span>" + t + "</span>");
+  	}); 
+  	
+	$("." + parentEnv + " li .env.visible-xs").each(function (){  		  		
+  		var t = $(this).find(".lnk a").text();
+  		
+  		$(this).find(".fullLink").attr("href", $(this).find(".lnk a").attr("href")).attr("title", t).attr("aria-label", t)  		
+  		$(this).find(".lnk a").replaceWith("<span>" + t + "</span>");
+  	});  	
+}
+
+function setFileLink(parentEnv){
+  	$("." + parentEnv + " li a").not('[href*="/CustomDispForm.aspx?ID="]').each(function (){
+  		var href = $(this).attr("href").split("/");  		
+  		var name = $(this).text();
+  		
+  		var arr = new Array();
+  		for(var i=0;i<href.length-2;i++) arr.push(href[i])
+  		 
+  		href = arr.join("/") + "/" + name;
+  		name = name.split(".")[0];  		
+  		$(this).attr("href", href).find("span").html(name);
+  	}); 	
+}
+
+var flagTextIn = false;
+
+function showText(pos){ showTextActive(pos);}
+
+function hideText(pos){	
+	flagTextIn =  false;	
+	setTimeout(function (){hideTextActive(pos)}, 100);
+}
+
+function showTextActive(pos){		
+	var length = $(".data").length;	
+	
+	flagTextIn = true;
+	if($("#homeBox" + pos + " .txt").css("display") != "none") return;
+	
+	$(".data").not("#homeBox" + pos).each(function (){ closeHomeBox($(this));});			
+	
+	$("#homeBox" + pos + " .lnk span").css({"border-radius":"0px", "border-radius":"0px"});
+	$("#homeBox" + pos + " .txt").attr("aria-hidden", "false").slideDown("slow", function (){$("#homeBox" + pos + " .lnk span").css({"border-top-left-radius":"5px", "border-top-right-radius":"5px"})});		
+}
+
+function hideTextActive(pos){
+	if(flagTextIn) return;		
+	closeHomeBox($("#homeBox" + pos))
+}
+
+function closeHomeBox(homeBox){
+	homeBox.find(".lnk span").css({"border-radius":"0px", "border-radius":"0px"});
+	homeBox.find(".txt").attr("aria-hidden", "true").slideUp("slow", function (){ homeBox.find(".lnk span").css({"border-bottom-left-radius":"5px", "border-bottom-right-radius":"5px"})});
+}
+
+function initRootMenu(){
+	initRootMenuActive();
+	setTimeout("initRootMenuActive()", 1000)
+}
+
+function initRootMenuActive(){
+	$(".subMenuEnv").each(function (){
+		var pos = $(this).attr("pos");
+		
+		$(this).mouseover(function (){showMenu(pos)}).mouseout(function (){hideMenu(pos)});
+		$(this).find("a").attr("aaa", "aaa").focus(function (){showMenu(pos)}).blur(function (){hideMenu(pos)});			
+	});
+}
+
+
+var flagMenuIn = false;
+
+function showMenu(pos){ 	
+	flagMenuIn = true;
+	showMenuActive(pos);	
+}
+
+function hideMenu(pos){
+	flagMenuIn = false;
+	setTimeout(function (){hideMenuActive(pos)}, 500);
+}
+
+function hideMenuActive(pos){			
+	if(flagMenuIn) return;
+	
+	$(".rootMenuItemSelected").removeClass("rootMenuItemSelected");		
+	$(".subMenuEnv").not("#subMenuEnv" + pos).css("display", "none").attr("aria-hidden", "true").attr("aria-expanded", "false");
+	$("#subMenuEnv" + pos).slideUp("fast").attr("aria-hidden", "true").attr("aria-expanded", "false");	
+}
+
+function showMenuActive(pos){
+	if(!flagMenuIn) return;
+			
+	$(".rootMenuItemSelected").removeClass("rootMenuItemSelected");
+	$("#rootMenuItem" + pos + " .rootMenuItemLink").addClass("rootMenuItemSelected");	
+	$(".subMenuEnv").not("#subMenuEnv" + pos).css("display", "none").attr("aria-expanded", "false").attr("aria-hidden", "true");
+	$("#subMenuEnv" + pos).slideDown("fast").attr("aria-expanded", "true").attr("aria-hidden", "false");		
+}
+
+var fixCarusaleWidthDone = true;
+var conter = 1;
+
+function initFixCarusaleWidth(cssEnv) {
+	conter++;
+	$("." + cssEnv).attr("id", cssEnv + conter);
+	
+	addResizeWidth(cssEnv + conter);
+	fixCarusaleWidth(cssEnv);				
+	  	
+	$(window).resize(function (){ fixCarusaleWidthResize(cssEnv) });	
+	
+	//setTimeout(function (){setSwipe(cssEnv)}, 1000);
+}
+
+function setSwipe(cssEnv ){
+	try{
+		$("." + cssEnv  + " .innerOverfloow").on("swiperight", function () {swipeRight(event, cssEnv)});		
+		$("." + cssEnv  + " .innerOverfloow").on("swipeleft", function () {swipeLeft(event, cssEnv)});		
+	}
+	catch(err){}
+}
+
+function swipeRight(event, cssEnv){
+	try{
+		var h = $("." + cssEnv + " .imgRight").attr("href");
+		eval(h);
+	}
+	catch(err){}
+}
+
+function swipeLeft(event, cssEnv){
+	var h = $("." + cssEnv + " .imgLeft").attr("href");
+	eval(h);
+}
+
+function fixCarusaleWidth(cssEnv) {					
+	$("." + cssEnv + " .innerOverfloow").css("display", "none");	
+	$("." + cssEnv + " .innerSize").css("width", "100%");
+	
+    if(fixCarusaleWidthDone){
+        fixCarusaleWidthDone = false;
+        setTimeout(function () { fixCarusaleWidthActive(cssEnv); }, 100);
+    }
+    else
+        setTimeout(function () { fixCarusaleWidthActive(cssEnv); }, 500);              
+}
+
+function fixCarusaleWidthResize(cssEnv){	
+	//if(!isResizeWidth($("." + cssEnv).attr("id"))) return;				
+	
+	/*
+	var totalSlide;
+	var slider = $("." + cssEnv + " .innerOverfloow");
+	var endScroll = (slider.find(".boxListItem").length - 1) * getScrollAmount(cssEnv);
+
+	if (!isIE())
+		totalSlide = 0;     
+    else
+		totalSlide = endScroll;         
+    
+    doAnimateScroll($("." + cssEnv + " .innerOverfloow"), totalSlide);            
+	
+	$("." + cssEnv + " .innerOverfloow").css("display", "none");	
+	$("." + cssEnv + " .innerSize").css("width", "100%");
+	
+	setTimeout(function (){fixCarusaleWidthActive(cssEnv)}, 300);
+	*/
+	
+	$("." + cssEnv + " .innerOverfloowEnv").css("min-height", $("." + cssEnv + " .innerOverfloowEnv").height() + "px");
+	$("." + cssEnv + " .innerOverfloow").css("display", "none");	
+	$("." + cssEnv + " .innerSize").css("width", "100%");
+	
+	fixCarusaleWidthActive(cssEnv);
+	//setTimeout(function (){fixCarusaleWidthActive(cssEnv)}, 300);
+}
+
+function getLandID(){
+	if(document.location.href.toString().toLowerCase().split("/")[3] == "english") return "e";
+	return "h";
+}
+
+function fixCarusaleWidthActive(cssEnv) {	
+    var el = $("." + cssEnv + " .divTableCellFull");    	
+	 
+    el.find(".boxList").css("width", "0px");
+    el.find(".innerSize").css("width", "100%");
+    var innerSize = el.find(".innerSize").width();
+    el.find(".innerSize").css("width", el.find(".innerSize").width() + "px");
+    el.find(".innerOverfloow").css("display", "block");           
+      
+    el.find(".boxListItem").removeAttr("style");
+ 	if(el.find(".boxListItem").width()*1.8 >= innerSize) {
+    	el.find(".boxListItem").each(function (){
+    		$(this).style("width", innerSize + "px", "important");    	
+    		if(langID == "h") $(this).style("padding-left", "0px", "important");
+    		if(langID == "e") $(this).style("padding-right", "0px", "important");
+    	});    	
+    }   
+            
+    var w2 = 0;
+    var l = el.find(".boxListItem").length;       	
+    var w1 = el.find(".boxListItem").width() * l;    
+    
+    if(langID == "h") w2 = parseInt(el.find(".boxListItem").css("padding-left").replace("px", "")) * (l - 1);
+    if(langID == "e") w2 = parseInt(el.find(".boxListItem").css("padding-right").replace("px", "")) * (l - 1);
+    
+    var ww = w1 + w2;			
+	
+    el.find(".boxList").css("width", ww + "px");                                
+		
+    fixCarusaleWidthDone = true;
+    
+    $("." + cssEnv + " .imgRight").addClass("hiddenElement").attr("aria-hidden", "true");
+    $("." + cssEnv + " .imgLeft").addClass("hiddenElement").attr("aria-hidden", "true");
+    	
+    if(hasScroll(cssEnv)){
+    	$("." + cssEnv + " .imgRight").removeClass("hiddenElement").attr("aria-hidden", "false");
+    	$("." + cssEnv + " .imgLeft").removeClass("hiddenElement").attr("aria-hidden", "false");
+    }
+}
+
+function hasScroll(cssEnv){ return $("." + cssEnv + " .innerOverfloow").get(0).scrollWidth > $("." + cssEnv + " .innerOverfloow").get(0).clientWidth;}
+
+function prevSlide(cssEnv) {
+    if (!isIE())
+        doAnimateScroll($("." + cssEnv + " .innerOverfloow"), $("." + cssEnv + " .innerOverfloow").scrollLeft() - getScrollAmount(cssEnv));
+    else
+        doAnimateScroll($("." + cssEnv + " .innerOverfloow"), $("." + cssEnv + " .innerOverfloow").scrollLeft() + getScrollAmount(cssEnv));
+}
+
+function nextSlide(cssEnv) {
+    if (!isIE())
+        doAnimateScroll($("." + cssEnv + " .innerOverfloow"), $("." + cssEnv + " .innerOverfloow").scrollLeft() + getScrollAmount(cssEnv));
+    else
+        doAnimateScroll($("." + cssEnv + " .innerOverfloow"), $("." + cssEnv + " .innerOverfloow").scrollLeft() - getScrollAmount(cssEnv));
+}
+
+function isIE() { return (window.navigator.userAgent.indexOf('MSIE ') > 0 || window.navigator.userAgent.indexOf('Trident/') > 0 || window.navigator.userAgent.indexOf('Edge/') > 0); }
+function getScrollAmount(cssEnv) { 
+	if(langID == "h") return $("." + cssEnv + " .divTableCellFull .boxListItem").width() + parseInt($("." + cssEnv + " .divTableCellFull .boxListItem").css("padding-left").replace("px", "")); 
+	if(langID == "e") return $("." + cssEnv + " .divTableCellFull .boxListItem").width() + parseInt($("." + cssEnv + " .divTableCellFull .boxListItem").css("padding-right").replace("px", "")); 
+}
+function doAnimateScroll(selecor, amounr) { selecor.stop(true, true).animate({ scrollLeft: amounr }, "fast", 'linear'); }
+
+function openSocMenu(pos){
+var socMenuEnv = $(".soc" + pos + " .socMenuEnv");
+var share = $(".soc" + pos + " .shareAlt");
+var ttl = share.attr("title");
+
+	$(".soc .socMenuEnv").not(".soc" + pos + " .socMenuEnv").slideUp("fast").attr("aria-hidden", "true");
+
+	if(socMenuEnv.css("display") == "none"){
+		share.attr("title", ttl.replace("פתח", "סגור")).attr("aria-label", ttl.replace("פתח", "סגור"));
+		socMenuEnv.slideDown("fast").attr("aria-hidden", "false");
+	}
+	else{
+		share.attr("title", ttl.replace("סגור", "פתח")).attr("aria-label", ttl.replace("סגור", "פתח"));
+		socMenuEnv.slideUp("fast").attr("aria-hidden", "true");
+	}	
+}
+
+function findInArray(arr, val){
+	for(var i=0;i<arr.length;i++) if(arr[i] == val) return i;
+	return -1;
+}
+
+function initLobbyData(arr){
+var current = _spPageContextInfo.webServerRelativeUrl.substr(1).toLowerCase();
+				
+	if(current == "") return;
+
+	for(var i=0;i<arr.length;i++){		
+		if(i%8 == 0 && current == arr[i].toLowerCase()){
+			doTheLobbyData(arr, i);
+			return;
+		}
+	}
+	
+	var arrLocation = current.split("/");
+	var arrPath = new Array(arrLocation[0]);
+	
+	for(var i=1;i<arrLocation.length-1;i++) arrPath.push(arrLocation[arrPath.length-1] + "/" + arrLocation[i]);
+	
+	for(var i=0;i<arr.length;i++){		
+		if(i%2 == 0 && findInArray(arrPath, arr[i].toLowerCase()) != -1) doTheLobbyData(arr, i);
+	}		
+}
+
+function setCustomImage(){
+	if($(".customImage img").length > 0) $(".defaultTopImage").css("background-image", "url('" + $(".customImage img").attr("src") + "')");	
+}
+
+function doTheLobbyData(arr, i){
+	if($(".customImage img").length > 0) return;
+	if(arr[i+1] != '') $(".defaultTopImage").css("background-image", "url('" + $(replaceMimi(arr[i+1])).attr("src") + "')");
+}
+
+function replaceMimi(val){ return val.replace(/mimi/g, "'");}
+
+function moveLobbyFontIcons(cssEnv){
+	if($(".topLinksEnv .topLinks").length == 0) return;
+	$(".topLinksEnv").removeClass("displayNone").find(".topLinks").replaceWith($("." + cssEnv).removeClass("displayNone"))
+}
+
+function fixFontIcon(cssEnv){
+	$("." + cssEnv + " *[fontIcon][fontIcon != '']").each(function (){
+		if($(this).attr("fontIcon") == "icon-arrow1")
+			$(this).find("a").addClass($(this).attr("fontIcon")).html("<i class='icon- path1'></i><i class='icon- path2'></i><span>" + $(this).find("a").text() + "</span>");
+		else
+			$(this).find("a").addClass($(this).attr("fontIcon")).html("<span>" + $(this).find("a").text() + "</span>");
+	});		
+}
+
+function fixFontIcon2(cssEnv){
+	$("." + cssEnv + " li[fontIcon][fontIcon != '']").each(function (){		
+		var a = $(this).find("a");
+		if(a.length > 0) a.addClass($(this).attr("fontIcon")).html("<span>" + $(this).find("a").text() + "</span>");
+	});		
+}
+
+function fixFontIcon3(cssEnv){
+	$("." + cssEnv + " li[fontIcon][fontIcon != '']").each(function (){		
+		var a = $(this).find("a");
+		if(a.length > 0) a.html("<i class='" + $(this).attr("fontIcon") + "'></i><span>" + a.text() + "</span>");
+	});		
+}
+
+
+function filterSetSelectedMonth(cssEnv){
+var month = new Date().getMonth() + 1;
+	
+	//if($("#month option[value='" + month + "']").length > 0) $("#month option[value='" + month + "']").attr("selected", "selected");	
+}
+
+function filterSetSelectedYear(cssEnv){
+var year = new Date().getFullYear();
+
+	if($("#year option[value='" + year + "']").length <= 0) $("#year").append("<option value='" + year + "'>" + year + "</option>");	
+	$("#year option[value='" + year + "']").attr("selected", "selected");	
+}
+
+function filterSearchFromQS(cssEnv){
+	var year = accGetRequestValue("year");
+	var month = accGetRequestValue("month");
+	var catSelect = accGetRequestValue("cats");
+	var kahalSelect = accGetRequestValue("kahal");	
+	
+	year = decodeURIComponent(year);
+	month = decodeURIComponent(month);
+	catSelect = decodeURIComponent(catSelect);
+	kahalSelect = decodeURIComponent(kahalSelect);
+	
+	if(month != "") {
+		if(month == "0") 
+			$("." + cssEnv + " #month").val("");
+		else
+			$("." + cssEnv + " #month").val(month);
+	}
+	
+	if(year != "") {
+		if(year == "0") 
+			$("." + cssEnv + " #year").val("");
+		else
+			$("." + cssEnv + " #year").val(year);
+	}
+	
+	if(catSelect != "") $("." + cssEnv + " #cats").val(catSelect);
+	if(kahalSelect != "") $("." + cssEnv + " #kahal").val(kahalSelect);
+		
+	//if(catSelect == "" && kahalSelect == "" && month == "" && year == "") return;
+	
+	activateSearchFilter(cssEnv);
+}
+
+function activateSearchFilter(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var env = $("." + cssEnv + " .env");
+		var cat = $("." + cssEnv + " #cats").val();
+		var kahal = $("." + cssEnv + " #kahal").val();
+		var year = $("." + cssEnv + " #year").val();
+		var month = $("." + cssEnv + " #month").val();
+		
+		env.stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(cat != "") kill = searchMulti(cat, l.find(".cat"));
+			if(kahal != "" && !kill) kill = searchMulti(kahal, l.find(".kahal"));
+			if(!kill && year != "" && l.find(".date[year='" + year + "']").length == 0) kill = true;
+			if(!kill && month != "" && l.find(".date[month='" + month + "']").length == 0) kill = true;		
+			
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});
+		
+		setTimeout(function (){
+			setSearchStatus("hide");			
+			setSearchFoundTitle(cssEnv, env.find(".litsBoxItem").not(".displayNone").length);
+			env.stop(true, true).show("fade", "fast").attr("aria-hidden", "false");	
+		}, 1);
+		
+	}, 400);	
+}
+
+function activateFilterArtsByCategory(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var env = $("." + cssEnv + " .env");
+		var cat = $("." + cssEnv + " #cats").val();
+		
+		env.stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(cat != "") kill = searchMulti(cat, l.find(".cat"));
+			
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});
+			
+		setTimeout(function (){
+			setSearchStatus("hide");
+			setSearchFoundTitle(cssEnv, env.find(".litsBoxItem").not(".displayNone").length);
+			env.stop(true, true).show("fade", "fast").attr("aria-hidden", "false");	
+		}, 1);		
+	}, 400);	
+}
+
+function activateFilterBids(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var env = $("." + cssEnv + " .env");
+		var cat = $("." + cssEnv + " #cats").val();
+			
+		env.stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(cat != "") kill = searchMulti(cat, l.find(".cats"));	
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});
+		
+		setTimeout(function (){
+			setSearchStatus("hide");
+			setSearchFoundTitle(cssEnv, env.find(".litsBoxItem").not(".displayNone").length);
+			env.stop(true, true).show("fade", "fast").attr("aria-hidden", "false");	
+		}, 1);
+		
+	}, 400);
+}
+
+function activateFilterJubsAndBids(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var env = $("." + cssEnv + " .env");
+		var cat = $("." + cssEnv + " #cats").val();
+		var freeSearch = $("." + cssEnv + " #freeSearch").val();
+			
+		env.stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(cat != "") kill = searchMulti(cat, l.find(".cats"));			
+			if(freeSearch != "" && !kill && l.find("*:contains('" + freeSearch + "')").length <= 0) kill = true;
+	
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});
+		
+		env.find(".litsBoxItem").not(".displayNone").each(function (index){
+			if(index % 2 == 1) $(this).addClass("ms-alternating");
+		});
+		
+		setTimeout(function (){
+			setSearchStatus("hide");			
+			setSearchFoundTitle(cssEnv, env.find(".litsBoxItem").not(".displayNone").length);
+			
+			if(env.find(".litsBoxItem").not(".displayNone").length > 0)
+				env.stop(true, true).show("fade", "fast").attr("aria-hidden", "false");	
+		}, 1);
+		
+	}, 400);
+}
+
+function openTreeMenu(pos){	
+	if($(".openTreeLink" + pos).length == 0) return;
+	if($("#subTreeLeftMenuEnv" + pos).css("display") == "none"){		
+		var ttl = $(".openTreeLink" + pos).attr("aria-label").replace("פתח", "סגור");
+		
+		$("#rootTreeLeftMenuItem" + pos).attr("aria-selected", "true").attr("aria-expanded", "true");
+		$("#subTreeLeftMenuEnv" + pos).slideDown("fast").attr("aria-hidden", "false");		
+		$(".openTreeLink" + pos).addClass("fa-chevron-circle-down").removeClass("fa-chevron-circle-left").attr("aria-label", ttl).attr("title", ttl);		
+	}
+	else{
+		var ttl = $(".openTreeLink" + pos).attr("aria-label").replace("סגור", "פתח");
+		
+		$("#rootTreeLeftMenuItem" + pos).attr("aria-selected", "true").attr("aria-expanded", "true");
+		$("#subTreeLeftMenuEnv" + pos).slideUp("fast").attr("aria-hidden", "true");		
+		$(".openTreeLink" + pos).addClass("fa-chevron-circle-left").removeClass("fa-chevron-circle-down").attr("aria-label", ttl).attr("title", ttl);		
+	}
+}
+
+function killLeftSide(){
+	if($(".leftSide").length <= 0) return;
+	
+	//.replace(/\u200B/g, "")
+	var txt = $(".leftSide").text().replace(/(^[\s\u200b]*|[\s\u200b]*|[\s\u203b]*$)/g, "");		
+		
+	if(txt == ""){
+		$(".leftSide").remove();
+		$(".mainData").css({"width":"100%", "float":"none"});
+	}
+}
+
+function initTreeLeftMenu(){	
+	$(".rootTreeLeftMenu .rootTreeLeftMenuItemLink, .rootTreeLeftMenu .subTreeLeftMenuItemLink").each(function (){
+		$(this).attr("lowHref", $(this).attr("href").toLowerCase())
+	});
+	
+	setSelectedRootTreeLeftMenu("rootTreeLeftMenuItemLink");
+	setSelectedRootTreeLeftMenu("subTreeLeftMenuItemLink");			
+}
+
+function setSelectedRootTreeLeftMenu(cssLink){
+	var a = $(".rootTreeLeftMenu ." + cssLink + "[lowHref='" + _spPageContextInfo.serverRequestPath.toLowerCase() + "'], .rootTreeLeftMenu ." + cssLink + "[lowHref='" + _spPageContextInfo.webServerRelativeUrl.toLowerCase() + "'], .rootTreeLeftMenu ." + cssLink + "[lowHref='" + _spPageContextInfo.webServerRelativeUrl.toLowerCase() + "/']").not(".rootTreeLeftMenu ." + cssLink + "[lowHref='/']");	
+	if(a.length > 0) {						
+		a.addClass(cssLink + "Selected");
+		
+		var pos = a.attr("pos");
+		if(pos != 0){
+			openTreeMenu(pos);
+			$(".rootTreeLeftMenuItemLink[pos='" + pos + "']").addClass("rootTreeLeftMenuItemLinkSelected");
+		}
+	}
+}
+
+function getFieldValue(newID, oldId, index){
+var tds = document.getElementsByTagName("td");
+var counter = 0;
+
+	for(var i=0;i<tds.length;i++){
+		if(tds[i].id == oldId){
+			counter++;
+			if(index == counter){
+				document.getElementById(newID).innerHTML = tds[i].innerHTML;
+				return;		
+			}
+		}
+	}		
+}
+
+function getMap(index){
+	accGetGoogleMap($("#googleMapContainer" + index).text(), index);
+	$(".listItemMapCaption a").each(function (){ $(this).addClass("icon-mapPoint").html("<span>" + $(this).text() + "</span>") });
+}
+
+function buildMap(ttl, id){
+	if(ttl == "") return;
+	setTimeout(function (){
+		if( $("#GoogleMap" + id).attr("map") == "true") return;	
+		
+		ttl = ttl.replace(/&#39;/g, "");	
+		ttl = ttl.replace(/&quot;/g, "");							
+		
+		$("#GoogleMap" + id).attr("map", "true");				
+		$("#GoogleMap" + id).append('<iframe width="100%" height="300" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?language=iw&key=AIzaSyC-kl2WmImNWFoJdVVUf6RqH4dYekPjDTU&q=' + ttl + '" allowfullscreen="true"></iframe>')	
+	}, 1);
+}
+
+function fixMultipleItems(selectID){	
+	var arr = new Array();
+	var select = $("#" + selectID);
+	var isKuillFirstMinus = false;
+	
+	if($("label[for='" + selectID + "']").text() == "תחום פעילות") isKuillFirstMinus = true;
+	
+	select.find("option").not("option[selected]").each(function (){
+		var innerArr = $(this).text().split(", ");		
+		for(var i=0;i<innerArr.length;i++) arr.push(innerArr[i]);
+	});		
+
+	select.find("option").not("option[selected]").remove();				
+	
+	for(var i=0;i<arr.length;i++){
+		var opt = $("<option></option>");		
+		opt.html(arr[i]);
+		opt.attr("value", arr[i]);
+		select.append(opt)
+	}	
+	
+	select.find("option").not("option[selected]").val(function(idx, val) {
+  		$(this).siblings("[value='"+ val +"']").remove();
+	});		
+		
+	select.find("option").not("option[selected]").each(function (){
+		var txt = $(this).text();
+		
+		if(isKuillFirstMinus){
+			var arr = txt.split("-");
+
+			if(arr.length > 1){
+				var arrVal = new Array();
+				for(var i=1;i<arr.length;i++) 
+					arrVal.push(arr[i])
+				$(this).text(arrVal.join("-"));
+			}
+		}
+		
+		$(this).val(txt);
+	});
+	
+	select.append($("#" + selectID + " option").not("option[selected]").remove().sort(function(a, b) {
+	    var at = $(a).text(), bt = $(b).text();
+	    return (at > bt)?1:((at < bt)?-1:0);
+	}));
+}
+
+function activateGanimFilter(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var root = $("." + cssEnv);
+		var txt1 = "";	
+		var free = "";
+	
+		if(root.find("#filter1").length != 0) txt1 = root.find("#filter1").val().replace(/&quot;/gi, "\"");
+		if(root.find("#freeSearch").length != 0) free = root.find("#freeSearch").val();					
+	
+		root.find(".env").stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("ms-alternating").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(txt1 != "") kill = searchMulti(txt1, l.find("*[filter1='true']"));
+			if(!kill && free != "" && l.find(":contains('" + free  + "')").length == 0) kill = true;
+					
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});	
+		
+		root.find(".litsBoxItem").not(".displayNone").each(function (index){
+			if(index % 2 == 1) $(this).addClass("ms-alternating");
+		});			
+	
+		setTimeout(function (){
+			setSearchStatus("hide");
+			setSearchFoundTitle(cssEnv, root.find(".litsBoxItem").not(".displayNone").length);
+			if(root.find(".litsBoxItem").not(".displayNone").length > 0)
+				root.find(".env").stop(true, true).show("fade", "fast").attr("aria-hidden", "false");
+		}, 1);
+		
+	}, 400);		
+}
+
+function generalSearchFilterFromQS(cssEnv){
+	var filter1 = accGetRequestValue("filter1");
+	var filter2 = accGetRequestValue("filter2");
+	var freeSearch = accGetRequestValue("freeSearch");
+			
+	filter1 = decodeURIComponent(filter1);
+	filter2 = decodeURIComponent(filter2);
+	freeSearch = decodeURIComponent(freeSearch);
+	
+	if(filter1 != "") $(".generalFilter #filter1").val(filter1);
+	if(filter2 != "") $(".generalFilter #filter2").val(filter2);
+	if(freeSearch != "") $(".generalFilter #freeSearch").val(freeSearch);
+	
+	if(filter1 == "" && filter2 == "" && freeSearch == "") return;
+	
+	activateGeneralSearchFilter(cssEnv);
+}
+
+function activateGeneralSearchFilter(cssEnv){
+	setSearchStatus("display");
+	
+	setTimeout(function (){
+		var root = $(".generalFilter");
+		var txt1 = "";
+		var txt2 = "";
+		var free = "";
+	
+		if(root.find("#filter1").length != 0) txt1 = root.find("#filter1").val().replace(/&quot;/gi, "\"");
+		if(root.find("#filter2").length != 0) txt2 = root.find("#filter2").val().replace(/&quot;/gi, "\"");
+		if(root.find("#freeSearch").length != 0) free = root.find("#freeSearch").val();					
+	
+		root.find(".env").stop(true, true).hide("fade", "fast").attr("aria-hidden", "true").find(".litsBoxItem").attr("aria-hidden", "false").removeClass("ms-alternating").removeClass("displayNone").each(function (){
+			var l = $(this);
+			var kill = false;
+	
+			if(txt1 != "") kill = searchMulti(txt1, l.find("*[filter1='true']"));
+			if(!kill && txt2 != "") kill = searchMulti(txt2, l.find("*[filter2='true']"));
+			if(!kill && free != "" && l.find(":contains('" + free  + "')").length == 0) kill = true;
+					
+			if(kill) l.attr("aria-hidden", "true").addClass("displayNone");		
+		});	
+		
+		root.find(".litsBoxItem").not(".displayNone").each(function (index){
+			if(index % 2 == 1) $(this).addClass("ms-alternating");
+		});			
+	
+		setTimeout(function (){
+			setSearchStatus("hide");
+
+			if(cssEnv == "onlyResult" && root.find(".litsBoxItem.displayNone").length == 0){
+				if(free != "")
+					setSearchFoundTitle("generalFilter", 0);
+				else
+					$(".generalFilter .resultFilterTitle").addClass("displayNone");
+
+				return;
+			}
+
+			setSearchFoundTitle("generalFilter", root.find(".litsBoxItem").not(".displayNone").length);
+			if(root.find(".litsBoxItem").not(".displayNone").length > 0)
+				root.find(".env").stop(true, true).show("fade", "fast").attr("aria-hidden", "false");
+		}, 1);
+		
+	}, 400);		
+}
+
+function searchMulti(val, selector){
+	var arr = selector.text().split(", ");
+	
+	for(var i=0;i<arr.length;i++){
+		if(arr[i] == val) return false;
+	}
+	
+	return true;
+}
+
+function openGroup(cssEnv, pos){
+var root = $("." + cssEnv);
+var last = accGetAttributeValue(root.attr("last"));	
+	
+	if(last != ""){
+		root.find(".litsBoxItem" + last).each(function (){
+			var ttl = $(this).find(".icoPlace").attr("aria-label").replace("סגור", "פתח");
+		
+			$(this).attr("aria-selected", "false").attr("aria-expanded", "false");
+			$(this).find(".env").slideUp("fast").attr("aria-hidden", "true");		
+			$(this).find(".icoPlace").addClass("icon-plus").removeClass("icon-minus").attr("aria-label", ttl).attr("title", ttl);
+			$(this).find(".openGroup").removeClass("openGroupSelectd");		
+		});			
+	}
+	
+	root.attr("last", pos);
+	
+	if(root.find(".litsBoxItem" + pos + " .env").css("display") == "none"){		
+		var ttl = root.find(".litsBoxItem" + pos + " .icoPlace").attr("aria-label").replace("פתח", "סגור");
+		
+		root.find(".litsBoxItem" + pos).attr("aria-selected", "true").attr("aria-expanded", "true");
+		root.find(".litsBoxItem" + pos + " .env").slideDown("fast").attr("aria-hidden", "false");		
+		root.find(".litsBoxItem" + pos + " .icoPlace").addClass("icon-minus").removeClass("icon-plus").attr("aria-label", ttl).attr("title", ttl);		
+		root.find(".litsBoxItem" + pos + " .openGroup").addClass("openGroupSelectd");				
+	}
+	else{
+		var ttl = root.find(".litsBoxItem" + pos + " .icoPlace").attr("aria-label").replace("סגור", "פתח");
+		
+		root.find(".litsBoxItem" + pos).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find(".litsBoxItem" + pos + " .env").slideUp("fast").attr("aria-hidden", "true");		
+		root.find(".litsBoxItem" + pos + " .icoPlace").addClass("icon-plus").removeClass("icon-minus").attr("aria-label", ttl).attr("title", ttl);
+		root.find(".litsBoxItem" + pos + " .openGroup").removeClass("openGroupSelectd");
+	}
+}
+
+function initUnits(){	
+	$(".managerData .listItemTDCaption").html($(".managerData .listItemTDCaption").text());
+		
+	/*
+	if($(".managerData").length <=0 ) return;
+	$(".managerData h2").each(function (){		
+		$(this).html("<a href='" + $(this).find("a").attr("href") + "'>" + $(this).text() + "</a>")
+	});
+		
+	$(".managerData table td").each(function (){
+		var val = $(this).find("a").text();	 			
+		if(val != '')
+ 			$(this).html(val)
+		else
+			$(this).parent().remove();	
+	});
+	*/
+	//$(".managerData .email").each(function (){ $(this).html("<a href='mailto:" + $(this).text() + "'>" + $(this).text() + "</a>") });
+	//$(".managerContainer").append($('.managerData').removeClass('displayNone'));
+}
+
+function removeManager(){
+	var t = $(".managerData td").text();
+
+	if(t == "") return;
+	t = t.split(",")[0];		
+
+	$(".jubs tr td:nth-child(1) a").each(function (){
+		if(t == $(this).text())
+			$(this).parent().parent().remove();		
+	})
+	
+	if($(".jubs tr").length >= 2) return;
+	
+	$(".jubsOpener").remove();
+	$(".jubs").remove();
+}
+
+function openJubs(){	
+	if($(".jubs").css("display") == "none"){
+		$(".jubs").slideDown("fast").attr("aria-hidden", "false");
+		$(".jubsOpener").addClass("fa-minus-square").removeClass("fa-plus-square");
+	}
+	else{
+		$(".jubs").slideUp("fast").attr("aria-hidden", "true");
+		$(".jubsOpener").addClass("fa-plus-square").removeClass("fa-minus-square");
+	}
+}
+
+var lastFooter = 0;
+function openTreeFooter(pos){
+	if(lastFooter != 0) $(".fotLinks li .sub" + lastFooter).slideUp("fast");	
+	
+	if(lastFooter == pos){
+		lastFooter = 0;
+		return;
+	}
+	
+	$(".fotLinks li .sub" + pos).slideDown("fast");		
+	
+	lastFooter = pos;
+}
+
+var lastFocus = null;
+
+function setBackLastFocus() {            
+    if (lastFocus == null) return;                       
+
+    $("*[iID='" + $(lastFocus).attr("iID") + "']").get(0).focus();            
+}
+
+function setlastFocus(e) { lastFocus = getElementFromEvent(e); }
+function getElementFromEvent(event) { return event.target || event.srcElement; }
+
+function validateDate(date){
+	if(date == "") return true;
+	if(date.length != 10) return false;
+	
+	var d = date.split("/");
+	if(d.length != 3) return false;
+	if(d[0].length != 2) return false;
+	if(d[1].length != 2) return false;
+	if(d[2].length != 4) return false;
+	
+	return new RegExp(/^((0[1-9]|[12][0-9]|3[01])(\/)(0[13578]|1[02]))|((0[1-9]|[12][0-9])(\/)(02))|((0[1-9]|[12][0-9]|3[0])(\/)(0[469]|11))(\/)\d{4}$/).test(date);
+}
+
+function showDatePicker(id){ 
+	if($("#ui-datepicker-div").css("display") != "none")
+		$("#" + id).datepicker("hide");
+	else
+		$("#" + id).datepicker("show");
+		
+	$(".ui-datepicker-calendar a[href='#']").attr("href", "javascript:void(0)");
+}
+
+function setDateTimePickerForm(id, hour, min) {	
+	var textBox = $("#" + id);
+	var minSelect = $("#" + min);
+	var hourSelect = $("#" + hour);
+	
+	for(var i=0;i<10;i++) hourSelect.append("<option vlaue=0" + i + ">0" + i + "</option>");	
+	for(var i=10;i<24;i++) hourSelect.append("<option vlaue=" + i + ">" + i + "</option>");	
+	for(var i=0;i<10;i++) minSelect.append("<option vlaue=0" + i + ">0" + i + "</option>");
+	for(var i=10;i<60;i++) minSelect.append("<option vlaue=" + i + ">" + i + "</option>");
+	
+	hourSelect.blur(function (e){
+		var v = textBox.val().split(" ")[0];		
+		if(v != "") textBox.val(v + " " + hourSelect.val() + ":" + minSelect.val());    	
+	});
+	
+	minSelect.blur(function (e){
+		var v = textBox.val().split(" ")[0];		
+		if(v != "") textBox.val(v + " " + hourSelect.val() + ":" + minSelect.val());    	
+	});
+	
+    textBox    	
+    	.blur(function (e){
+    		textBox.val(textBox.val().replace("  ", " "))
+    		var arr = textBox.val().split(" ");
+    		var v = arr[0];
+    		
+    		if(!validateDate(v)){
+    			alert("יש להזין תאריך במבנה dd/mm/yyyy");
+    			textBox.val("");
+    			setTimeout(function (){textBox[0].focus()}, 100);    			
+    		}
+    		else if(arr.length > 1){
+    			arr = arr[1].split(":");
+    			
+    			if(arr.length > 0){
+	    			if(parseInt(arr[0]) > 23) arr[0] = "00";
+	    			if(parseInt(arr[1]) > 59) arr[1] = "00";    			    				
+	    		}
+	    		else
+	    			arr = new Array("00","00");	    		
+	    		
+	    		minSelect.val(arr[1]);
+    			hourSelect.val(arr[0]);	    			
+    			textBox.val(v + " " + hourSelect.val() + ":" + minSelect.val())
+    		}
+    		else if(v != "") textBox.val(v + " " + hourSelect.val() + ":" + minSelect.val());
+	    	else textBox.val("");
+    	})
+	    .datepicker({	
+	    	showOn: "button",
+	        prevText: "< לחודש הקודם",
+	        nextText: "לחודש הבא >",
+	        changeMonth: true,
+	        changeYear: true,
+	        isRTL: true,
+	        gotoCurrent: true,
+	        showButtonPanel: true,	     	      
+	        autoclose: false,
+	        dateFormat: "dd/mm/yy ",
+	        dayNamesMin: ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ש'"],
+	        yearRange: "-100:+0",
+	        beforeShow: function () {	        	
+	            setTimeout(function () {	            	
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#")[0].focus();
+	                lastFocus = $(".ui-datepicker-next").get(0)	
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                $(".ui-datepicker-close").after("<a href='' aria-hidden='true'></a>")
+	                $(".ui-datepicker-close").blur(function (e){
+	                	textBox.datepicker("hide");
+                		textBox[0].focus();
+	                });
+	            }, 1)
+	        },
+	        onChangeMonthYear: function (year, month, element) {
+	            element.input.prop("disabled", true);
+	            setTimeout(function () {
+	                element.input.prop("disabled", false);
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#");
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                setBackLastFocus();
+	            }, 1);
+	        },
+	        onSelect: function () {
+	        	setTimeout(function (){
+	        		textBox.val(textBox.val() + hourSelect.val() + ":" + minSelect.val());
+	        	}, 100)	        	
+	        	doErrToPreventClose; 
+	        },
+	        onClose: function () { lastFocus = null }
+	    });	
+}
+
+function setDatePickerForm(id) {
+var textBox = $("#" + id);
+
+    textBox
+    	.blur(function (e){
+    		if(!validateDate(textBox.val())){
+    			alert("יש להזין תאריך במבנה dd/mm/yyyy");
+    			textBox.val("");
+    			setTimeout(function (){textBox[0].focus()}, 100);    			
+    		}    		  	
+    	})
+	    .datepicker({	
+	    	showOn: "button",
+	        prevText: "< לחודש הקודם",
+	        nextText: "לחודש הבא >",
+	        changeMonth: true,
+	        changeYear: true,
+	        isRTL: true,
+	        gotoCurrent: true,
+	        showButtonPanel: true,	     	      
+	        autoclose: false,
+	        dateFormat: "dd/mm/yy",
+	        dayNamesMin: ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ש'"],
+	        yearRange: "-100:+0",
+	        beforeShow: function () {
+	            setTimeout(function () {	            	
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#")[0].focus();
+	                lastFocus = $(".ui-datepicker-next").get(0)	
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                $(".ui-datepicker-close").after("<a href='' aria-hidden='true'></a>")
+	                $(".ui-datepicker-close").blur(function (e){
+	                	textBox.datepicker("hide");
+                		textBox[0].focus();
+	                });
+	            }, 1)
+	        },
+	        onChangeMonthYear: function (year, month, element) {
+	            element.input.prop("disabled", true);
+	            setTimeout(function () {
+	                element.input.prop("disabled", false);
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#");
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                setBackLastFocus();
+	            }, 1);
+	        },
+	        onSelect: function () { doErrToPreventClose; },
+	        onClose: function () { lastFocus = null }
+	    });	
+}
+
+
+function setDatePicker(id) {
+    $("#" + id)
+    	.attr("aria-hidden", "true")
+	    .datepicker({	
+	    	showOn: "button",
+	        prevText: "< לחודש הקודם",
+	        nextText: "לחודש הבא >",
+	        changeMonth: true,
+	        changeYear: true,
+	        isRTL: true,
+	        gotoCurrent: true,
+	        showButtonPanel: true,	     	      
+	        autoclose: false,
+	        dateFormat: "dd/mm/y",
+	        dayNamesMin: ["א'", "ב'", "ג'", "ד'", "ה'", "ו'", "ש'"],
+	        beforeShow: function () {
+	            setTimeout(function () {	            	
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#")[0].focus();
+	                lastFocus = $(".ui-datepicker-next").get(0)	
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                $(".ui-datepicker-close").after("<a href='' aria-hidden='true'></a>")
+	                $(".ui-datepicker-close").blur(function (e){
+	                	$("#" + id).datepicker("hide");
+                		$("." + id + "Focus")[0].focus();
+	                });
+	            }, 1)
+	        },
+	        onChangeMonthYear: function (year, month, element) {
+	            element.input.prop("disabled", true);
+	            setTimeout(function () {
+	                element.input.prop("disabled", false);
+	                $(".ui-datepicker-prev,.ui-datepicker-next").attr("href", "#");
+	                $(".ui-datepicker-next").after($(".ui-datepicker-title"));
+	                $(".ui-datepicker-current").after($(".ui-datepicker-close"));
+	                $("#ui-datepicker-div a,#ui-datepicker-div select,#ui-datepicker-div button").each(function (index) { $(this).attr("iID", "iID" + index).focus(function (e) { setlastFocus(e) }); });
+	                setBackLastFocus();
+	            }, 1);
+	        },
+	        onSelect: function () { doErrToPreventClose; },
+	        onClose: function () { lastFocus = null }
+	    });	
+}
+
+var lastOpenRow = 0;
+function openRow(ev, rowID){
+var elem = "";
+
+	if (ev.srcElement) elem = ev.srcElement;
+ 	else if (ev.target) elem = ev.target;
+ 
+ 	if(elem.toString().indexOf("http") != -1) return;
+	if(ev) ev.preventDefault();		
+	
+	if($("#divData" + rowID + " .mimi").length == 0){
+		$.ajax({
+			url: _spPageContextInfo.siteAbsoluteUrl + "/Havingfun/Lists/List/CustomDispForm.aspx?ID=" + $("#tab" + rowID).attr("itemID"),
+			type: 'GET',
+			async: true,
+			success: function(data){ 
+				var recurrence = $(data).find("#SPFieldRecurrence").text();
+				if(recurrence.length > 16) $("#divData" + rowID + " .line").after('<div class="mimi dataRow sDate fa fa-recycle"><span><strong>מופע חוזר: </strong>' + recurrence + '</span></div>');
+			}
+		});	
+	}	
+				
+	if(lastOpenRow != 0){						
+		$("#tab" + lastOpenRow).removeClass("rowOpen").attr("aria-selected", "false").attr("aria-expanded", "false");
+		$("#divData" + lastOpenRow).slideUp("fast").attr("aria-hidden", "true");				
+		$("#tab" + lastOpenRow + " .fa-minus-circle").attr("aria-label", "פתח מידע נוסף").attr("title", "פתח מידע נוסף").addClass("fa-plus-circle").removeClass("fa-minus-circle");
+	}
+	
+	lastOpenRow = rowID;
+	
+	if($("#divData" + rowID).css("display") != "none"){	
+		lastOpenRow  = 0;
+		
+		$("#tab" + rowID).removeClass("rowOpen").attr("aria-selected", "false").attr("aria-expanded", "false");
+		$("#divData" + rowID).slideUp("fast").attr("aria-hidden", "true");			
+		$("#tab" + rowID + " .fa-minus-circle").addClass("fa-plus-circle").attr("aria-label", "פתח מידע נוסף").attr("title", "פתח מידע נוסף").removeClass("fa-minus-circle").find("span");
+	}
+	else{				
+		$("#tab" + rowID).addClass("rowOpen").attr("aria-selected", "true").attr("aria-expanded", "true");
+		$("#divData" + rowID).slideDown("fast").attr("aria-hidden", "false");			
+		$("#tab" + rowID + " .fa-plus-circle").attr("aria-label", "סגור מידע נוסף").attr("title", "סגור מידע נוסף").addClass("fa-minus-circle").removeClass("fa-plus-circle").find("span");
+		
+		$("#divData" + rowID + " #heightDes" + rowID).css("min-height", $("#divData" + rowID + " #heightPlace" + rowID).height() + "px");									
+	}
+}
+
+function doEventsSearchNoData(){
+	document.location.href = "/Havingfun/Pages/AllEvents.aspx?cat=" + $(".eventsSearch #catSelect").val() + "&place=" + $(".eventsSearch #placeSelect").val() + "&kahal=" + $(".eventsSearch #kahalSelect").val() + "&from=" + $(".eventsSearch #datepickerFrom").val()
+}
+
+function filterEventsFromQS(){
+	sortTable();	
+
+	var catSelect = accGetRequestValue("cat");
+	var placeSelect = accGetRequestValue("place");
+	var kahalSelect = accGetRequestValue("kahal");
+	var datepickerFrom = accGetRequestValue("from");		
+	
+	catSelect = decodeURIComponent(catSelect);
+	placeSelect = decodeURIComponent(placeSelect);
+	kahalSelect = decodeURIComponent(kahalSelect);
+	datepickerFrom = decodeURIComponent(datepickerFrom);
+	
+	if(catSelect != "") $(".filterEvents #catSelect").val(catSelect);
+	if(placeSelect != "") $(".filterEvents #placeSelect").val(placeSelect);
+	if(kahalSelect != "") $(".filterEvents #kahalSelect").val(kahalSelect);
+	if(datepickerFrom != "") $(".filterEvents #datepickerFrom").val(datepickerFrom);
+	
+	if(catSelect == "" && placeSelect == "" && kahalSelect == "" && datepickerFrom == "") return;
+
+	doEventsSearch();
+}
+
+function doEventsSearch(){
+	setSearchStatus("display");	
+	
+	setTimeout(function (){
+		var catSelect = $(".filterEvents #catSelect").val();
+		var placeSelect = $(".filterEvents #placeSelect ").val();
+		var kahalSelect = $(".filterEvents #kahalSelect ").val();
+		var datepickerFrom = $(".filterEvents #datepickerFrom").val();
+		
+		$(".filterEvents .rowMain").not(".displayNone").each(function (index){
+			if(index % 2 == 1)
+				$(this).removeClass("row1").removeClass("row2").addClass("row1");
+			else
+				$(this).removeClass("row1").removeClass("row2").addClass("row2");				
+				
+			$(this).show();
+		}).removeClass("rowOpen").attr("aria-selected", "false").attr("aria-expanded", "false").find(".fa-angle-up").addClass("fa-angle-down").removeClass("fa-angle-up");
+			
+		$(".filterEvents .divData").hide().attr("aria-hidden", "true");						
+		
+		$(".filterEvents .rowMain").each(function (){
+			$(this).find(".date").html($(this).find(".orgChangeDate").html())			 
+		});		
+				
+		$(".filterEvents .rowMain").not(".displayNone").each(function (indexA){
+			var rowMain = $(this);				
+				
+			if(placeSelect != ''){
+				if($(this).find(".placeFilter span").length <= 0) rowMain.hide();
+				$(this).find(".placeFilter span").each(function (){
+					if($(this).text() != placeSelect) rowMain.hide();			
+				});
+			}
+			
+			if(kahalSelect != ''){			
+				var arr = $(this).find(".kahalFilter span").not(".displayNoneIndent").text().split(", ");
+				var c = arr.length;
+
+				if($(this).attr("itemid") == "3982") console.log(arr);				
+				
+				if(c <= 0) rowMain.hide();									
+				for(var i=0;i<arr.length;i++){
+					if(arr[i] != kahalSelect) c--;
+				}
+				if(c <= 0) rowMain.hide();
+			}
+			
+			if(catSelect != ''){
+				var arr = $(this).find(".catFilter").text().split(", ");
+				var c = arr.length;
+				
+				if(c <= 0) rowMain.hide();									
+				for(var i=0;i<arr.length;i++){
+					if(arr[i] != catSelect) c--;
+				}
+				if(c <= 0) rowMain.hide();
+			}	
+			
+			if(datepickerFrom != ""){
+				var d = $(this).find(".orgDate").text().split("/");
+				var itemDate = "20" + d[2].substring(0,2).toString() + d[1].toString() + d[0].toString();
+					d = datepickerFrom.split("/");										
+				var searchDate = "20" + d[2].toString() + d[1].toString() + d[0].toString();												
+					d = $(this).find(".endDate").text().split("/");
+				var endDate = d[2].substring(0,4).toString() + d[1].toString() + d[0].toString();								
+				
+					d = $(this).find(".date").text().split("/");
+				var itemDisplayDate = "20" + d[2].substring(0,2).toString() + d[1].toString() + d[0].toString();				
+				if(parseInt(itemDisplayDate) < parseInt(searchDate)) $(this).find(".date").html(datepickerFrom + " " + $(this).find(".orgTime").text());
+				
+				if(parseInt(searchDate) == parseInt(itemDate)) return;
+				if(parseInt(itemDate) > parseInt(searchDate)) return;
+				if(parseInt(searchDate) < parseInt(endDate)) return;
+				rowMain.hide();
+			}
+		});		
+
+		var mod = 1;
+		$(".filterEvents .rowMain").not(".displayNone").each(function (){
+			if($(this).css("display") != "none"){
+				if(mod == 2){
+					$(this).removeClass("row1").removeClass("row2").addClass("row1");
+					mod = 1;
+				}
+				else{
+					$(this).removeClass("row1").removeClass("row2").addClass("row2");
+					mod = 2;
+				}
+			}
+		});
+
+		setSearchStatus("hide");
+		
+		var length = 0;
+		$(".filterEvents .rowMain").each(function (){
+			if($(this).css("display") != "none") length++;
+		});
+		
+		if(length <= 0){
+			$(".resultFilterTitle").attr("role", "alert").html("לא נמצאו תוצאות חיפוש!");
+			$(".tbl").addClass("displayNone");
+		}
+		else{
+			$(".resultFilterTitle").removeAttr("role").html("תוצאות חיפוש:");
+			$(".tbl").removeClass("displayNone");
+		}
+	}, 400);
+}
+
+function addMoreEvent(position, sDate, eDate, sHour, eHour){
+	var posParent = position.replace("_1", "");
+		
+	var arrSDate = sDate.split(",");
+	var arrEDate = eDate.split(",");
+	var arrSHour = sHour.split(",");
+	var arrEHour = eHour.split(",");
+	var laspPosMoreEvent = 1;
+	
+	var d1 =  $("#tab" + posParent + " .date").text();		
+	var d2 =  new Date();	
+	
+	var sDay = d2.getDate()
+	var sMonth = d2.getMonth()+1;
+	var sYear = d2.getFullYear();
+	var sHour = d2.getHours();
+	var sMin = d2.getMinutes();
+	
+	if(sDay.toString().length < 2) sDay = "0" + sDay.toString();
+	if(sMonth.toString().length < 2) sMonth = "0" + sMonth.toString();
+	if(sHour.toString().length < 2) sHour = "0" + sHour.toString();
+	if(sMin.toString().length < 2) sMin = "0" + sMin.toString();
+	
+	var s = parseInt(sYear.toString() + sMonth.toString() + sDay.toString() + sHour.toString() + sMin.toString());
+	
+	if(s > getNumberDate(d1)) $("#tab" + posParent).addClass("displayNone");
+	
+	for(var i=0;i<arrSDate.length;i++){			
+		laspPosMoreEvent++;
+
+		var rowData = $("#rowData" + position).clone();
+		var template = $("#tabTemplate" + position).clone();
+		var pos = position.replace("_1", "") + "_" + laspPosMoreEvent;
+		
+		var Day = arrSDate[i].substring(0, 2);
+		var Month = arrSDate[i].substring(3, 5);
+		var Year = arrSDate[i].substring(6);
+		var Hour = arrSHour[i].substring(0, 2);
+		var Min = arrSHour[i].substring(3);
+		
+		var temp = parseInt(Year.toString() + Month.toString() + Day.toString() + Hour.toString() + Min.toString());
+		
+		if(Hour.toString() == "00") temp = parseInt(Year.toString() + Month.toString() + Day.toString() + "2359");
+		
+		if(s > temp) continue;						
+		
+		var DayEnd = arrEDate[i].substring(0, 2);
+		var MonthEnd = arrEDate[i].substring(3, 5);
+		var YearEnd = arrEDate[i].substring(6);
+		var HourEnd = arrEHour[i].substring(0, 2);
+		var MinEnd = arrEHour[i].substring(3);
+		
+		var sDateValue = Year + Month + Day + "T" + Hour + Min + "00";
+		var eDateValue = YearEnd + MonthEnd + DayEnd + "T" + HourEnd + MinEnd + "00";
+		var gogleDate = sDateValue + "/" + eDateValue;
+		var dDate = Day + "/" + Month + "/" + Year.substring(2);
+		var dEndDate = DayEnd + "/" + MonthEnd + "/" + Year.substring(2);
+
+		if(laspPosMoreEvent % 2 == 1) template.attr("class", "rowMain row1");
+
+		template.removeClass("displayNone");
+		template.attr("id", "tab" + pos);
+		template.attr("onclick", "openRow(event,'" + pos + "')");
+		template.attr("aria-controls", "divData" + pos);
+		template.find(".opener").attr("href", "javascript:openRow(event, '" + pos + "')");				
+		
+		if(arrSHour[i] != "00:00")
+			template.find(".date").html(dDate + " " + arrSHour[i]);
+		else
+			template.find(".date").html(dDate);
+		
+		rowData.removeAttr("id");
+		rowData.find(".divData").attr("id", "divData" + pos).attr("aria-labelledby", "tab" + pos);
+		rowData.find(".itemLink").attr("href", rowData.find(".itemLink").attr("href") + "&sDate=" + arrSDate[i] + "&eDate=" + arrEDate[i] + "&sHour=" + arrSHour[i] + "&eHour=" + arrEHour[i]);		
+		rowData.find(".sDate span").html(rowData.find(".sDate span").text() + dDate);
+		rowData.find(".eDate span").html(rowData.find(".eDate span").text() + dEndDate);
+		rowData.find(".sTime span").html(rowData.find(".sTime span").text() + arrSHour[i]);
+		rowData.find(".eTime span").html(rowData.find(".eTime span").text() + arrEHour[i]);
+		
+		//if(arrSHour[i] != '00:00') rowData.find(".sTime span").html(rowData.find(".sTime span").text() + arrSHour[i]);		
+		//if(arrEHour[i] != "23:55" && arrEHour[i] != "23:59") rowData.find(".eTime span").html(rowData.find(".eTime span").text() + arrEHour[i]);
+		
+		if(arrSHour[i] == '00:00') rowData.find(".sTime").css("display", "none");
+		if(arrEHour[i] == "23:59" || arrEHour[i] == "23:55") rowData.find(".eTime").css("display", "none");
+			
+		rowData.find(".GoogleMapEvents").attr("id", "GoogleMap" + pos).attr("pos", pos);
+		
+		rowData.find(".img script").html("buildMap('" + rowData.find(".GoogleMapEvents").attr("title") + "', '" + pos + "')");
+		rowData.find(".map2").attr("class", "map2 map2" + pos);		
+		rowData.find(".gogCal").attr("href", rowData.find(".gogCal").attr("href").replace("gogleDate", gogleDate));
+				
+		rowData.find(".ics").each(function (){
+			$(this).attr("href", $(this).attr("href") + "&sDateValue=" + sDateValue + "&eDateValue=" + eDateValue + "&urlValue=http://www.beer-sheva.muni.il" + rowData.find(".itemLink").attr("href"))
+		});		
+						
+		$("#tabTemplate" + position).after(template);
+		$("#tab" + pos).after(rowData);				
+	}
+	
+	$("#tabTemplate" + position).remove();
+	$("#rowData" + position).remove();
+}
+
+function hiddenAddFlashDate(position, positionTemplate){
+	var cd = new Date();	
+	var sd = $("#tab" + position + " .date").text();
+	
+	var sDay = sd.substring(0, 2);
+	var sMonth = parseInt(sd.substring(3, 5)) - 1;	
+	var sYear = sd.substring(6, 8);
+	var sHour = sd.substring(9, 11);	
+	var sMin = sd.substring(12, 14);		
+	
+	if(sYear.toString().length == 2) sYear = "20".toString() + sYear.toString();		
+	if(sMonth.toString().length == 1) sMonth = "0".toString() + sMonth.toString();	
+	sd = new Date(sYear, sMonth, sDay, sHour, sMin);
+		
+	var ed = $("#tab" + position + " .endDate").text();
+	var eDay = ed.substring(0, 2);
+	var eMonth = parseInt(ed.substring(3, 5)) - 1;	
+	var eYear = ed.substring(6, 10);
+	var eHour = ed.substring(11, 13);	
+	var eMin = ed.substring(14, 16);
+	
+	if(eMonth.toString().length == 1) eMonth = "0".toString() + eMonth.toString();		
+	ed = new Date(eYear, eMonth, eDay, eHour, eMin);				
+	
+	if(cd <= sd) cd = sd;	
+	
+	var arrD = new Array();
+	var arrH = new Array();
+	var arrHe = new Array();
+		
+	var diff = showDays(ed, cd);
+	
+	Date.prototype.addDays = function(days) {
+		var d = new Date(this.valueOf());
+	  	d.setDate(d.getDate() + days);
+	  	return d;
+	}		
+	
+	for(var i=0;i<diff+1;i++){		
+		var day = cd.getDate();						
+		var month = cd.getMonth() + 1;		
+					
+		if(day.toString().length == 1) day = "0".toString() + day.toString();			
+		if(month.toString().length == 1) month = "0".toString() + month.toString();						
+			
+		arrD.push(day + "/" + month + "/" + cd.getFullYear());
+		arrH.push(sHour + ":" + sMin);
+		arrHe.push(eHour + ":" + eMin);
+		cd = cd.addDays(1);
+	}
+		
+	if(arrD.length > 0) {
+		arrD.reverse();
+		arrH.reverse();
+		arrHe.reverse();
+		addMoreEvent(positionTemplate, arrD.join(","), arrD.join(","), arrH.join(","), arrHe.join(","));
+	}	
+}
+
+function showDays(firstDate, secondDate){                                  
+	var startDay = new Date(firstDate);
+    var endDay = new Date(secondDate);
+    var millisecondsPerDay = 1000 * 60 * 60 * 24;
+    var millisBetween = startDay.getTime() - endDay.getTime();
+    var days = millisBetween / millisecondsPerDay;
+    
+	return(Math.floor(days));
+}
+              
+function sortTable(){
+return;
+	var sorting = new Array(); 		
+		
+	$(".tblEnv tbody tr.rowMain .date").each(function(){  	
+   		sorting.push({
+   			"date" : getNumberDate($(this).text()),
+   			"rowMain" : $(this).parent().clone(),
+   			"rowData" : $(this).parent().next().clone()
+   		});
+  	});
+  	  	
+  	sorting.sort(function(a, b) { return ((a.date < b.date) ? -1 : ((a.date == b.date) ? 0 : 1)) });
+		  	  	    
+	$(".tblEnv table tbody").empty();
+	
+	for(var i=0;i<sorting.length;i++){
+		$(".tblEnv table tbody").append(sorting[i].rowMain);
+		$(".tblEnv table tbody").append(sorting[i].rowData);
+	}	
+	
+	$(".rowMain").not(".displayNone").each(function (index){
+		$(this).removeClass("row1").removeClass("row2").addClass("row" + ((index % 2)+1) )
+	});
+}
+
+function getNumberDate(iDate){
+	var sDay = iDate.substring(0, 2);
+	var sMonth = iDate.substring(3, 5);
+	var sYear = iDate.substring(6, 8);
+	var sHour = iDate.substring(9, 11);	
+	var sMin = iDate.substring(12, 14);	
+	
+	return parseInt("20" + sYear.toString() + sMonth.toString() + sDay.toString() + sHour.toString() + sMin.toString());
+}
+
+function openSingle(cssEnv){
+	if($("." + cssEnv + " .ttlRoot").length == 1) {
+		openFaqParent(cssEnv, "1");
+		if($("." + cssEnv + " li.tab").length == 1) openFaq2(cssEnv, "1-1");
+	}
+}
+
+function fixLookUpEmail(cssEnv){	
+	$("." + cssEnv + " .email").each(function (){
+		$(this).html("<a href='mailto:" + $(this).text() + "'>" + $(this).text() + "</a>");
+	});
+}
+
+function stripLink(cssEnv){
+	$("." + cssEnv + " .stripLink").each(function (){ $(this).html($(this).text());	});
+}
+
+function setIsSingleMore(){
+	if($(".lobbyMoreLinksContainer li").length <= 0) $(".lobbyMoreLinksContainer").remove();	
+	if($(".lobbyMoreMormsContainer li").length <= 0) $(".lobbyMoreMormsContainer").remove();
+}
+
+function setSearchStatus(status){
+	if(status == "display"){
+		$(".resultFilterTitle").removeClass("displayNoneIndent");
+		$(".searchStatus").slideDown("fast").attr("aria-hidden", "false");
+	}
+	else
+		$(".searchStatus").slideUp("fast").attr("aria-hidden", "true");	
+}
+
+function setSearchFoundTitle(cssEnv, count){
+var t1 = "לא נמצאו תוצאות סינון!";
+var t2 = "תוצאות סינון:";
+
+	if(langID == "e"){
+		t1 = "No Filter results found!";
+		t2 = "Filter results:";
+	}
+
+	if(count <= 0) 
+		$("." + cssEnv + " .resultFilterTitle").attr("role", "alert").html(t1);
+	else
+		$("." + cssEnv + " .resultFilterTitle").removeAttr("role").html(t2);
+}
+
+function showTime(pos){ showTimeActive(pos) }
+function showTimeMob(pos){ showTimeActive(pos)}
+
+function showTimeActive(pos){
+	$(".periods .selected").not(".periods .selected" + pos).hide("slow");
+	$(".periods .timeDataEnv .timeData").not(".periods .timeDataEnv" + pos + " .timeData").hide("slow").attr("aria-hidden", "true");
+	$(".periods .timeDataEnv" + pos + " .timeData").show("slow").attr("aria-hidden", "false");
+	$(".periods .selected" + pos).show("slow");	
+	
+	$(".periodsMob .timeDataEnv .timeData").not(".timeDataEnv" + pos + " .timeData").slideUp("slow").attr("aria-hidden", "true");
+	$(".periodsMob .timeDataEnv" + pos + " .timeData").slideDown("slow").attr("aria-hidden", "false");
+}
+
+function openFilterOnMob(){
+	if($(".filterMob").css("display") == "none"){
+		var alt =  $(".openFilter a").text().replace("פתח", "סגור").replace("Open", "Close");
+		
+		$(".filterMob").slideDown("fast").attr("aria-hidden", "false");
+		$(".openFilter a").attr("title", alt).attr("aria-label", alt).html(alt + "<i class='fa fa-angle-up' aria-hidden='true'></i>");
+	}
+	else{
+		var alt =  $(".openFilter a").text().replace("סגור", "פתח").replace("Close", "Open");
+		
+		$(".filterMob").slideUp("fast").attr("aria-hidden", "true");
+		$(".openFilter i").removeClass("fa-angle-up").addClass("fa-angle-down");
+		$(".openFilter a").attr("title", alt).attr("aria-label", alt).html(alt + "<i class='fa fa-angle-down' aria-hidden='true'></i>");
+	}
+}
+
+function openFaq(envCss, id){
+	var root = $("." + envCss);			
+	
+	if(lastFaqID != 0){
+		var t = root.find("#tab" + lastFaqID + " .ttl .fa").attr("title").replace("סגור", "פתח");
+		
+		root.find("#divData" + lastFaqID).slideUp("fast").attr("aria-hidden", "false");
+		root.find("#tab" + lastFaqID).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find("#tab" + lastFaqID + " .ttl").removeClass("selected");
+		root.find("#tab" + lastFaqID + " .txt").removeClass("openBorder");
+		root.find("#tab" + lastFaqID + " .ttl .fa").addClass("fa-plus-square").removeClass("fa-minus-square").attr("aria-label", t).attr("title", t);
+	}
+	
+	if(lastFaqID == id) {
+		lastFaqID = 0;
+		return;
+	}
+	
+	var t = root.find("#tab" + id + " .ttl .fa").attr("title").replace("פתח", "סגור");	
+
+	root.find("#divData" + id).slideDown("fast").attr("aria-hidden", "false");		
+	root.find("#tab" + id).attr("aria-selected", "true").attr("aria-expanded", "true");	
+	root.find("#tab" + id + " .ttl").addClass("selected");
+	root.find("#tab" + id + " .txt").addClass("openBorder");
+	root.find("#tab" + id + " .ttl .fa").addClass("fa-minus-square").removeClass("fa-plus-square").attr("aria-label", t).attr("title", t);
+	
+	lastFaqID = id;
+}
+
+var lastFaqID = 0;
+var lastFaqParentID = 0;
+var lastFaqOpenAll = 0;
+
+function activateSearchFilterFaqWithParent(cssEnv){
+	setSearchStatus("display");
+			
+	setTimeout(function (){
+		var env = $("." + cssEnv + " .env");													
+		
+		env.stop(true, true).hide("fade", "fast").attr("aria-hidden", "true");
+		
+		$(env.find(".ttlRoot a")[0]).each(function (){
+			lastFaqOpenAll = 1;
+			lastFaqParentID  = $(this).attr("pos");			
+			openAllFaqParent(cssEnv, lastFaqParentID);			
+		});
+						
+		lastFaqID  = 0;	
+		lastFaqParentID = 0;
+		lastFaqOpenAll = 0;						
+				
+		env.find(".litsBoxItem").attr("aria-hidden", "false").removeClass("displayNone").find(".tab").removeClass("displayNone");
+	
+		var freeSearch = $("." + cssEnv + " #freeSearch").val();		
+		if(freeSearch != ""){								
+			env.find(".litsBoxItem").not(".litsBoxItem:contains('" + freeSearch + "')").attr("aria-hidden", "true").addClass("displayNone");
+					
+			env.find(".litsBoxItem").not(".displayNone").each(function (){		
+				if( $(this).find(".tdCenter:contains('" + freeSearch + "')").length <= 0){
+					$(this).find(".tab").not(".tab:contains('" + freeSearch + "')").attr("aria-hidden", "true").addClass("displayNone");			
+				}
+			});
+			
+			env.find(".litsBoxItem").not(".displayNone").each(function (){
+				if($(this).find(".tdCenter:contains('" + freeSearch + "')").length <= 0){
+					$(this).find(".tab").not(".displayNone").each(function (){
+						if($(this).find(".ttl:contains('" + freeSearch + "')").length <= 0){
+							$(this).find(".txt a").not(".txt a:contains('" + freeSearch + "')").attr("aria-hidden", "true").addClass("displayNone");					
+							if($(this).find(".txt a").not(".displayNone").length <= 0) $(this).find(".tab").attr("aria-hidden", "true").addClass("displayNone");							
+						}
+					});			
+					
+					if($(this).find(".tab").not(".displayNone").length <= 0) $(this).attr("aria-hidden", "true").addClass("displayNone")
+				}
+			});				
+		}
+		
+		setTimeout(function (){
+			setSearchStatus("hide");
+			setSearchFoundTitle(cssEnv, env.find(".litsBoxItem").not(".displayNone").length);
+			env.stop(true, true).show("fade", "fast").attr("aria-hidden", "false");
+		}, 1);
+		
+	}, 400);	
+}
+
+function openFaq2(envCss, id){
+	var root = $("." + envCss);	
+	
+	if(lastFaqID != 0){
+		var alt = root.find("#tab" + lastFaqID + " .ttl .fa").attr("title").replace("סגור", "פתח");
+		var txt = root.find("#tab" + lastFaqID + " .ttl .fa").text().replace("סגור", "פתח");		
+				
+		root.find("#divData" + lastFaqID).slideUp("fast").attr("aria-hidden", "false");
+		root.find("#tab" + lastFaqID).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find("#tab" + lastFaqID + " .ttl").removeClass("selected");
+		root.find("#tab" + lastFaqID + " .txt").removeClass("openBorder");
+		root.find("#tab" + lastFaqID + " .ttl .fa").addClass("fa-plus-square").removeClass("fa-minus-square").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	}
+	
+	if(lastFaqID == id) {
+		lastFaqID = 0;
+		return;
+	}
+	
+	if(root.find("#divData" + id).css("display") == "none"){
+		var alt = root.find("#tab" + id + " .ttl .fa").attr("title").replace("פתח", "סגור");
+		var txt = root.find("#tab" + id + " .ttl .fa").text().replace("פתח", "סגור");	
+		
+		root.find("#divData" + id).slideDown("fast").attr("aria-hidden", "false");
+		root.find("#tab" + id).attr("aria-selected", "true").attr("aria-expanded", "true");
+		root.find("#tab" + id + " .ttl").addClass("selected");
+		root.find("#tab" + id + " .txt").addClass("openBorder");
+		root.find("#tab" + id + " .ttl .fa").addClass("fa-minus-square").removeClass("fa-plus-square").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+		lastFaqID = id;
+	}
+	else{		
+		var alt = root.find("#tab" + id + " .ttl .fa").attr("title").replace("סגור", "פתח");
+		var txt = root.find("#tab" + id + " .ttl .fa").text().replace("סגור", "פתח");
+		
+		root.find("#divData" + id).slideUp("fast").attr("aria-hidden", "false");
+		root.find("#tab" + id).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find("#tab" + id + " .ttl").removeClass("selected");
+		root.find("#tab" + id + " .txt").removeClass("openBorder");
+		root.find("#tab" + id + " .ttl .fa").addClass("fa-plus-square").removeClass("fa-minus-square").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	}		
+}
+
+function openFaqAll(envCss, id){
+	var root = $("." + envCss);			
+	
+	if(lastFaqID != 0){	
+		var alt = root.find("#tab" + lastFaqID + " .ttl .fa").attr("title").replace("סגור", "פתח");
+		var txt = root.find("#tab" + lastFaqID + " .ttl .fa").text().replace("סגור", "פתח");		
+				
+		root.find("#divData" + lastFaqID).slideUp("fast").attr("aria-hidden", "false");				
+		root.find("#tab" + lastFaqID).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find("#tab" + lastFaqID + " .ttl").removeClass("selected");
+		root.find("#tab" + lastFaqID + " .txt").removeClass("openBorder");
+		root.find("#tab" + lastFaqID + " .ttl .fa").addClass("fa-plus-square").removeClass("fa-minus-square").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	}
+	
+	if(lastFaqID == id) {
+		lastFaqID = 0;
+		return;
+	}	
+	
+	var alt = root.find("#tab" + id + " .ttl .fa").attr("title").replace("פתח", "סגור");
+	var txt = root.find("#tab" + id + " .ttl .fa").text().replace("פתח", "סגור");
+		
+	root.find("#divData" + id).slideDown("fast").attr("aria-hidden", "false");
+	root.find("#tab" + id).attr("aria-selected", "true").attr("aria-expanded", "true");
+	root.find("#tab" + id + " .ttl").addClass("selected");
+	root.find("#tab" + id + " .txt").addClass("openBorder");
+	root.find("#tab" + id + " .ttl .fa").addClass("fa-minus-square").removeClass("fa-plus-square").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	lastFaqID = id;
+}
+
+function openFaqParent(envCss, id){
+	openFaqParentAll(envCss, id);
+}
+
+function openFaqParentAll(envCss, id){
+	var root = $("." + envCss);
+	
+	root.find(".tdLeft a").not(".tdLeft" + id + " a").each(function (){
+		var alt = $(this).attr("title").replace("סגור", "פתח");
+		var txt = $(this).text().replace("סגור", "פתח");
+				
+		$(this).addClass("fa-plus-circle").removeClass("fa-minus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	});		
+		
+	if(lastFaqParentID != id){
+		root.find(".tdLeft" + id + " a").each(function (){
+			var alt = $(this).attr("title").replace("פתח", "סגור");
+			var txt = $(this).text().replace("פתח", "סגור");				
+			
+			$(this).addClass("fa-minus-circle").removeClass("fa-plus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+		});			
+	}
+	else{
+		root.find(".tdLeft" + id + " a").each(function (){
+			var alt = $(this).attr("title").replace("סגור", "פתח");
+			var txt = $(this).text().replace("סגור", "פתח");		
+			
+			$(this).addClass("fa-plus-circle").removeClass("fa-minus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);		
+		});
+	}		
+
+	if(lastFaqParentID != 0){
+		var t = root.find("#rootTab" + lastFaqParentID + " .lnk").attr("title").replace("סגור", "פתח");
+		
+		root.find("#rootTab" + lastFaqParentID).attr("aria-selected", "false").attr("aria-expanded", "false");
+		root.find(".root" + lastFaqParentID ).slideUp("fast").attr("aria-hidden", "false");
+		root.find("#rootTab" + lastFaqParentID + " .lnk").addClass("fa-plus").removeClass("fa-minus").attr("aria-label", t).attr("title", t);
+		root.find(".rootEnv" + lastFaqParentID).removeClass("rootEnvSelected");
+	}
+	
+	if(lastFaqParentID == id) {
+		lastFaqParentID = 0;
+		return;
+	}		
+	
+	var t = root.find("#rootTab" + id + " .lnk").attr("title").replace("פתח", "סגור")
+	
+	root.find("#rootTab" + id).attr("aria-selected", "true").attr("aria-expanded", "true");
+	root.find(".root" + id).slideDown("fast").attr("aria-hidden", "false");
+	root.find("#rootTab" + id + " .lnk").addClass("fa-minus").removeClass("fa-plus").attr("aria-label", t).attr("title", t);
+	root.find(".rootEnv" + id).addClass("rootEnvSelected");
+	
+	lastFaqParentID = id;
+}
+
+function openAllFaqParent(envCss, id){
+	var root = $("." + envCss);					
+	
+	root.find(".tdLeft a").not(".tdLeft" + id + " a").each(function (){
+		var alt = $(this).attr("title").replace("סגור", "פתח");
+		var txt = $(this).text().replace("סגור", "פתח");
+				
+		$(this).addClass("fa-plus-circle").removeClass("fa-minus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+	});		
+	
+	if(lastFaqParentID != id){			
+		root.find(".tdLeft" + id + " a").each(function (){
+			var alt = $(this).attr("title").replace("פתח", "סגור");
+			var txt = $(this).text().replace("פתח", "סגור");				
+						
+			$(this).addClass("fa-minus-circle").removeClass("fa-plus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);
+		});				
+		
+		lastFaqOpenAll = 0;	
+	}
+	else{
+		root.find(".tdLeft" + id + " a").each(function (){
+			var alt = $(this).attr("title").replace("סגור", "פתח");
+			var txt = $(this).text().replace("סגור", "פתח");		
+			
+			$(this).addClass("fa-plus-circle").removeClass("fa-minus-circle").attr("aria-label", alt).attr("title", alt).find("span").html(txt);		
+		});
+		
+		lastFaqOpenAll = 1;
+	}
+		
+	openFaqParentAll(envCss, id);
+		
+	root.find("#rootTab" + id + " .ttl a").each(function (){ 
+		var i = $(this).attr("pos");
+		
+		if(lastFaqOpenAll != 0) lastFaqID = i;
+		else lastFaqID = 0;
+		
+		openFaqAll(envCss, i);			
+	});				
+	
+	lastFaqID = 0;		
+}
+
+function fixSocMenuHref(cssEnv){
+var site = _spPageContextInfo.siteAbsoluteUrl;
+
+	$("." + cssEnv + " .boxListItem").each(function (){
+		var href = $(this).find(".ttl a").attr("href");
+		
+		if(href.startsWith("/")) href = site + href;
+		
+		$(this).find(".socMenu .fa-facebook-square").attr("href", "https://www.facebook.com/sharer/sharer.php?u=" + href);
+		$(this).find(".socMenu .fa-twitter-square").attr("href", "https://twitter.com/home?status=" + href);
+	});
+}
+
+function hideTitle(dataCss){
+	if($("." + dataCss + " li").length == 0) $("." + dataCss).addClass("displayNone");			
+}
+
+function setFocusSendData(){
+	setTimeout(function (){	$(".breadCrumb a")[0].focus();}, 500);
+}
+
+function flippLang(){
+	if($(".siteOnly .mainData").css("direction") == "ltr"){
+		$(".siteOnly .mainData").style("direction", "rtl", "important");
+		$(".siteOnly .mainData").style("text-align", "right", "important");
+	}
+	else{
+		$(".siteOnly .mainData").style("direction", "ltr", "important");
+		$(".siteOnly .mainData").style("text-align", "left", "important");
+	}
+}
+
+function fixHeight(cssEnv){	
+	$(document).ready(function () { matchHeight(cssEnv)});
+	$(window).resize(function (){ setTimeout(function (){ matchHeight(cssEnv);}, 300);});
+}
+
+function matchHeight(cssEnv){
+var el = $("." + cssEnv + " .matchHeight"); if(el.length <= 0) return;
+var rowCount = 0;
+var indexCount = 0;			
+var top = $(el[0]).offset().top;				
+var countArray = new Array();	
+
+	setSameHeight(el.removeClass("mostHeight").css("min-height", "0px"));
+	
+	el.each(function (){ 
+		var matchHeight = $(this);
+	
+		if(top == matchHeight.offset().top) rowCount++;
+		else{
+			top = matchHeight.offset().top;
+			countArray.push(rowCount);
+			rowCount = 1;
+			indexCount++;
+		}		
+	
+		matchHeight.attr("indexCount", indexCount);
+	});				
+	
+	countArray.push(rowCount);
+	
+	for(var i=0;i<countArray.length;i++){						
+		var el2 = el.filter("[indexCount='" + i + "']").removeClass("mostHeight").css("min-height", "0px");	
+		if(countArray[i] != 1) setSameHeight(el2);
+	}
+}
+
+function setSameHeight(el2){
+var height = 0;
+
+	el2.each(function (){
+		var currentHeight = getFullHeight($(this));
+
+		if(currentHeight > height) {
+			el2.removeClass("mostHeight");
+			$(this).addClass("mostHeight");
+			height = currentHeight;
+		}
+	});
+	
+	if(height > 0){
+		var paddingB = parseInt(el2.filter(".mostHeight").css("padding-bottom"));
+		var paddingT = parseInt(el2.filter(".mostHeight").css("padding-top"));
+		el2.css("min-height", (height + paddingB + paddingT) + "px");
+	}
+}
+
+		
+function getFullHeight(el){
+var b = 0;
+var computedHeight = window.getComputedStyle(el[0]).height;	
+
+	if(computedHeight.indexOf(".") != -1) b = Math.ceil(parseFloat("0." + computedHeight.split(".")[1].replace("px", "")));
+	
+	return el.height() + b;
+}
+
+function fixXSLUrls(css){
+	return;
+	$("." + css).each(function (){			
+		$(this).attr("href", $(this).attr("href").replace(/&amp;/g, "&").replace("%21", "!"));
+	});
+}
+
+function fixMainUrls(){
+	$("a[href*='myvisit']").each(function (){						
+		$(this).attr("href", $(this).attr("href").replace(/&amp;/g, "&").replace("%21", "!"));
+	});
+}
+
+function sortAdminSelect(){
+var doc = document.location.href.toLowerCase();
+	if(doc.indexOf("editform.aspx") != -1 || doc.indexOf("newform.aspx") != -1) setTimeout(function (){ sortAdminSelectActive();}, 1000);	
+}
+
+function sortAdminSelectActive(){
+	$(".ms-formbody select").each(function (){
+		var selected = $(this).find("option[selected]").clone();
+        var options = $(this).find("option");
+
+        options.removeAttr("selected");
+        var arr = options.map(function (_, o) { return { t: $(o).text(), v: o.value }; }).get();
+
+        arr.sort(function (o1, o2) { return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0; });
+        options.each(function (i, o) {
+            o.value = arr[i].v;
+            $(o).text(arr[i].t);
+        });
+
+        if (selected.length > 0) $(this).val(selected.attr("value"));
+	});
+}
+
+function coronaLoadMoreArts(cssEnv){
+var currentPage = 0;
+var root = $("." + cssEnv);
+var totals = parseInt(root.attr("totals"));
+var pageSize = parseInt(root.attr("pageSize"));
+var pageNumber = parseInt(root.attr("pageNumber")) + 1;
+
+	root.attr("pageNumber", pageNumber);
+
+	if(totals <= pageSize) return;
+	if(pageNumber >= Math.ceil(totals/pageSize)) return;	
+
+	var ul = root.find("ul");
+	var liTemplate = root.find("li:first-child");
+
+	$.getJSON(_spPageContextInfo.siteAbsoluteUrl + "/_layouts/GetJsonItems.aspx?pagingSize=" + root.attr("pageSize") + "&currentPage=" + pageNumber + "&List=" + root.attr("listID") + "&View=" + root.attr("viewID"), function(result) {
+		$.each(result.Root.Items.Item, function (index, item){
+			var li = liTemplate.clone().addClass("displayNone").attr("aria-hidden", "false");
+			var field = item.Fields.Field;
+
+			li.find(".divTable").removeClass("matchHeight").removeClass("mostHeight");
+			li.find(".myEmbed").addClass("img");
+			li.find(".img").removeClass("myEmbed").html("").css("background-image", "");
+
+			if(field[4].Value != '')
+				li.find(".img").css("background-image", "").addClass("myEmbed").removeClass("img").html(field[4].Value.replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "'"));
+			else if(field[1].Value != "")
+				li.find(".img").css("background-image", "url('" + $(field[1].Value).attr("src") + "')");
+				
+			li.find(".date").html(field[3].Value.substring(0, 5) + "<br/>" + field[3].Value.substring(6, 10));
+			li.find(".ttl a").attr("href", item.URL).html(field[0].Value);
+			
+			if(field[2].Value != "") li.find(".ttl").html(field[2].Value);
+
+			ul.append(li);
+			li.show("fade", "fast");
+			
+			if(index == 0)li.find(".ttl a")[0].focus();			
+		});
+   	});
+
+   	if(pageNumber+1 >= Math.ceil(totals/pageSize)) root.find(".coronaMoreArts").hide("fade", "fast");
+   	setTimeout(function (){ fixHeight(cssEnv)}, 300);
+}
+
+function fixMyEmbed(){
+	$(".myEmbed").each(function (){
+		$(this).html($(this).html().replace(/&lt;/gi, "<").replace(/&gt;/gi, ">").replace(/&quot;/gi, "'"));
+	});	
+}
+
+function closeAdWin(cls){
+	if($("." + cls).css("display") == "none") return;
+	$("." + cls).hide("fast").attr("aria-hidden", "true");
+	
+	//if(accGetCookie("closeWinBanner") == "") accSetCookie("closeWinBanner", "1", 1)
+}
+
+function initPopUp(cssEnv){	
+	//if(accGetCookie("closeWinBanner") != "") return;
+	
+	$(document).keyup(function (e) { if (e.keyCode == 27) closeAdWin(cssEnv); });
+	
+	$("." + cssEnv + "disp").removeClass("displayNone");
+	$("." + cssEnv + "Env")[0].focus();
+}
+
+function initClickServices(cssEnv){		
+	fixFontIcon2(cssEnv);	
+	//fixHeight(cssEnv);
+	//$("." + cssEnv + " .dataLinks a").addClass("matchHeight");
+			
+	$("." + cssEnv + " .moreData").each(function (){
+		var moreData = $(this);
+		var infoJSON = "";
+		var formsJSON = "";
+		
+		if(moreData.find(".info").length > 0) infoJSON = accGetAttributeValue(moreData.find(".info").attr("json"));
+		if(moreData.find(".forms").length > 0) formsJSON = accGetAttributeValue(moreData.find(".forms").attr("json"));			
+		
+		try{
+			if(formsJSON != ""){
+				formsJSON = decodeURI(formsJSON).replace("&amp;", "&");				
+				$.getJSON(_spPageContextInfo.siteAbsoluteUrl + "/_layouts/GetJsonItems.aspx" + formsJSON, function(result) {
+					var ul = moreData.find(".forms ul");
+					$.each(result.Root.Items.Item, function (index, item){
+						var li = $("<li></li>");
+						var field = item.Fields.Field;
+						
+						if(field[0].Value != ""){
+							li.append($(field[0].Value));
+							ul.append(li);
+						}
+					});
+			   	});
+			}
+	   	}
+	   	catch(err){}
+	   	
+	   	try{
+	   		if(infoJSON != ""){
+		   		infoJSON = decodeURI(infoJSON).replace("&amp;", "&");
+				$.getJSON(_spPageContextInfo.siteAbsoluteUrl + "/_layouts/GetJsonItems.aspx" + infoJSON, function(result) {
+					var ul = moreData.find(".info ul");
+					$.each(result.Root.Items.Item, function (index, item){
+						var li = $("<li></li>");
+						var field = item.Fields.Field;
+						
+						if(field[0].Value != ""){
+							var a = $(field[0].Value);
+							
+							a.html("<i class='fa fa-chevron-left'></i><span>" + a.text() + "</span>")
+							li.append(a);
+							ul.append(li);
+						}
+					});
+			   	});	
+		   	}
+	   	}
+	   	catch(err){}
+   	});
+}
+
+function openItemClick(cssEnv, pos){
+	if($("." + cssEnv + " .data" + pos).css("display") == "none"){
+		$("." + cssEnv + " .data" + pos).slideDown("fast").attr("aria-hidden", "false");
+		$("." + cssEnv + " .linkOpener" + pos).attr("aria-expanded", "true").addClass("fa-angle-up").removeClass("fa-angle-down");
+		setLabelOpenClose($("." + cssEnv + " .linkOpener" + pos), 2);
+	}
+	else{
+		$("." + cssEnv + " .data" + pos).slideUp("fast").attr("aria-hidden", "true");
+		$("." + cssEnv + " .linkOpener" + pos).attr("aria-expanded", "false").addClass("fa-angle-down").removeClass("fa-angle-up");
+		setLabelOpenClose($("." + cssEnv + " .linkOpener" + pos), 1);
+	}	
+	fixHeight(cssEnv);
+}
+
+function openItemClick2(cssEnv, pos){
+	$("." + cssEnv + " .dataEnv").not("." + cssEnv + " .dataEnv" + pos).slideUp("fast").attr("aria-hidden", "true");
+	$("." + cssEnv + " .dataItemLink").not("." + cssEnv + " .dataItemLink" + pos).attr("aria-expanded", "false").removeClass("active");
+	setLabelOpenClose($("." + cssEnv + " .dataItemLink").not("." + cssEnv + " .dataItemLink" + pos), 1);
+
+	if($("." + cssEnv + " .dataEnv" + pos).css("display") == "none"){
+		$("." + cssEnv + " .dataEnv" + pos).slideDown("fast").attr("aria-hidden", "false");
+		$("." + cssEnv + " .dataItemLink" + pos).attr("aria-expanded", "true").addClass("active");
+		setLabelOpenClose($("." + cssEnv + " .dataItemLink" + pos), 2);
+	}
+	else{
+		$("." + cssEnv + " .dataEnv" + pos).slideUp("fast").attr("aria-hidden", "true");
+		$("." + cssEnv + " .dataItemLink" + pos).attr("aria-expanded", "false").removeClass("active");
+		setLabelOpenClose($("." + cssEnv + " .dataItemLink" + pos), 1);
+	}
+	fixHeight(cssEnv);	
+}
+
+function setLabelOpenClose(selector, state){
+var label = accGetAttributeValue(selector.attr("aria-label"));
+
+	if(label == "") return;
+	
+	if(state == 2){
+		label = label.replace("כדי לבחור", "כדי לסגור");
+		label = label.replace("Открыть", "Закрыть").replace("open", "close").replace("פתח", "סגור");
+	}
+	else{
+		label = label.replace("כדי לסגור", "כדי לבחור");
+		label = label.replace("Закрыть", "Открыть").replace("close", "open").replace("סגור", "פתח");
+	}	
+	
+	selector.attr("aria-label", label).attr("title", label);
+}
+
+function accGetRequestValueURL(name, url) {
+    var results = new RegExp("[\\?&]" + name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]") + "=([^&#]*)", "i").exec(url);
+    return results == null ? "" : results[1];
+}
+
+var arrMapPlaces = new Array();
+function setMapFromPlace(pos){ arrMapPlaces.push(pos); }
+
+function getMapFromPlace2(){
+	$.getJSON(_spPageContextInfo.siteAbsoluteUrl + "/_layouts/15/getjsonitems.aspx?List=59288113-e309-4bd8-bda4-61f40db02115&View=8c1dca55-d6bb-4db6-a83a-7f41fb03aec9", function(result) {		
+		$.each(result.Root.Items.Item, function (index, item){
+			var field = item.Fields.Field;
+
+			for(var i = 0;i<arrMapPlaces.length;i++){
+				var id = accGetRequestValueURL("ID", $(".mapPlaceLink" + arrMapPlaces[i] + " a").attr("href"));
+				
+				if(item.ID == id && field[0].Value != ""){
+					var p2 = field[0].Value + " " + field[1].Value + " חולון";
+
+					$(".leftData" + arrMapPlaces[i] + " .img").html('<div id="GoogleMap' + arrMapPlaces[i] + '" title="' + p2 + '" class="GoogleMapEvents" map="false"></div>');
+					$(".leftData" + arrMapPlaces[i] + " .img").after('<div class="map1" style="text-align:right"><a href="https://www.google.co.il/maps/place/' + p2 + '?hl=iw" target="_blank"><i class="fa fa-map-marker"></i><span>' + p2 + '</span></a></div>');
+
+					buildMap(p2, arrMapPlaces[i]);
+				}
+			}
+		});
+   	});
+}
+
+function getMapFromPlace(cssName){
+	var id = accGetRequestValueURL("ID", $("." + cssName + " a").attr("href"));
+	
+	$.getJSON(_spPageContextInfo.siteAbsoluteUrl + "/_layouts/15/getjsonitems.aspx?List=59288113-e309-4bd8-bda4-61f40db02115&View=8c1dca55-d6bb-4db6-a83a-7f41fb03aec9", function(result) {
+		$.each(result.Root.Items.Item, function (index, item){
+			var field = item.Fields.Field;
+			
+			if(item.ID == id && field[0].Value != ""){
+				var p2 = field[0].Value + " " + field[1].Value + " חולון";
+				
+				$(".leftData .img").html('<div id="GoogleMap1" title="' + p2 + '" class="GoogleMapEvents" map="false"></div>');
+				$(".leftData .img").after('<div class="map1" style="text-align:right"><a href="https://www.google.co.il/maps/place/' + p2 + '?hl=iw" target="_blank"><i class="fa fa-map-marker"></i><span>' + p2 + '</span></a></div>');
+
+				buildMap(p2, 1);
+			}
+		});
+   	});
+}
+
+function buildMap2(index){
+	var txt = $("#GoogleMap" + index).text();
+	$("#GoogleMap" + index).html("");
+	$("#GoogleMap" + index).attr("title", txt);	
+	$("#GoogleMap" + index).after('<div class="map1" style="text-align:right"><a href="https://www.google.co.il/maps/place/' + txt + '?hl=iw" target="_blank"><i class="fa fa-map-marker"></i><span>' + txt + '</span></a></div>');
+	
+	buildMap(txt, index);
+}

@@ -1,0 +1,48 @@
+// Varibles - Colors
+$custom_color1: #0d0d0d;
+$custom_color2: #f2f2f2;
+$custom_color3: #f2cc0f;
+$custom_color4: #8cbf3f;
+$custom_color5: #9453a6;
+$warn: red;
+$warning: #f2cc0f;
+$success: #8cbf3f;
+$primary: #9453a6;
+
+//  fonts
+$font-size-base: 1.6rem;
+
+* {
+  margin: 0;
+}
+
+.nav-item {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+.nav-item > a.nav-link:hover {
+  color: $custom_color5;
+  text-decoration: underline;
+}
+// עריכת נאב תחתון של האתר
+.bi {
+  padding-left: 3%;
+  padding-right: 3%;
+  direction: rtl;
+}
+.bi:before {
+  padding-left: 1%;
+}
+.bg-light {
+  background-color: $custom_color3 !important;
+  color: $custom_color1;
+}
+// רקע תמונה לכל העמודים
+.bgimg {
+  background-image: url(light-white-subtle-45deg-double-lines-v12548.png);
+}
+@import "contact";
+@import "faq";
+@import "index";
+@import "media";
+@import "about";

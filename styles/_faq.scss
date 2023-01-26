@@ -1,0 +1,35 @@
+.faq {
+  font-family: penny;
+  margin-right: 2%;
+  text-align: right;
+}
+.accordion {
+  text-align: right;
+}
+.accordion-button {
+  flex-direction: row-reverse;
+  font-family: Bona + Nova;
+}
+
+.accordion-item {
+  font-family: Bona + Nova;
+  font-size: 1.2em;
+}
+.mainimg {
+  display: flex;
+  justify-content: space-evenly;
+}
+.bi {
+  padding-left: 3%;
+  padding-right: 3%;
+}
+.bi:before {
+  padding-left: 1%;
+}
+.accordion-button {
+  text-align: right;
+}
+.accordion-button:after {
+  margin-right: auto !important;
+  margin-left: unset !important;
+}

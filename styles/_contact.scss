@@ -1,0 +1,45 @@
+.hcontact {
+  color: $warning;
+  text-align: center;
+  text-shadow: 2px 4px 10px rgba(0, 0, 0, 1);
+}
+.form {
+  direction: rtl;
+  text-align: right;
+}
+
+.send {
+  background-color: #f2cc0f;
+  border-radius: 10px;
+  font-size: 1.2em;
+  margin-top: 7px;
+  margin-bottom: 20px;
+  border: none;
+}
+.send:hover {
+  transform: scale(1.3);
+}
+
+.label {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+.nav-item {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+p {
+  text-align: right;
+  color: $custom_color2;
+  font-size: 1.1em;
+}
+.align-self-center {
+  // margin: auto;
+  margin-right: 35%;
+}
+.m-md-5 {
+  background-image: url(contact_us2-removebg-preview.png);
+  background-repeat: no-repeat;
+  background-position: bottom;
+}

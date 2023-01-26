@@ -1,0 +1,85 @@
+﻿.topLine {
+	display: block !important;
+}
+.siteOnly .rootMenu li.rootMenuItem:nth-child(2) .rootMenuItemLink, .siteOnly .rootMenu li.rootMenuItem:nth-child(2) .rootMenuItemLink span{
+	color:white !important;
+}
+.siteOnly .changeBackgroundColor, .siteOnly .mainFaq .ttlRoot .lnk, .siteOnly .fotBtnLinks li a, .topLine, .siteOnly .rootMenu li.rootMenuItem:nth-child(2) .rootMenuItemLink, .siteOnly .allItems a, .siteOnly .leftMenuEnv, .siteOnly .searchFilter{
+	background-color: #3d7929 !important;
+}
+.siteOnly .mainData a:link, .siteOnly .mainData a, .siteOnly .mainData a:visited, .siteOnly .mainData .ms-vb a, .siteOnly .mainData .ms-vb a:visited, .siteOnly .changeColorA a, .siteOnly .changeColorSpan span, .siteOnly .changeColor, .siteOnly .mainFaq .subItems .txt li a, .siteOnly .mainFaq .tdLeft a, .siteOnly .fot2 a.lnk, .siteOnly h1, .siteOnly .subjectLinks li a, .siteOnly .subjectLinksOneColumn li a, .siteOnly .searchLink, .siteOnly .searchLink span, .siteOnly .lobbyRightSide .ttl a, .siteOnly .lobbyRightSide .readMore a, .siteOnly .mainFaq .ttl a, .siteOnly .searchFilter .conectedLink {
+	color: #3d7929 !important;
+}
+.siteOnly .treeMenuEnvelopeLeft .x-tree-elbow-plus, .siteOnly .treeMenuEnvelopeLeft .x-tree-elbow-end-plus, .siteOnly .treeMenuEnvelopeLeft .x-tree-elbow-minus, .siteOnly .treeMenuEnvelopeLeft .x-tree-elbow-end-minus {
+	background-image: url("/SiteCollectionImages/icons3.png") !important;
+}
+.siteOnly .ms-rteTable-Design1 .ms-rteTableHeaderRow-Design1, .siteOnly .ms-listviewtable .ms-viewheadertr, .siteOnly .ms-listviewtable .ms-viewheadertr:hover {
+	background-color: #3b3a3c !important;
+}
+#siteOnly .ms-listviewtable td a, #siteOnly .ms-rteTable-Design1 td a {
+	/*color: #1a3e0c !important;*/
+	color: #3d7929 !important;
+}
+.siteOnly .mainData .lobbyMoreLinksContainer a, .siteOnly .mainData .lobbyMoreLinksContainer a i, #siteOnly .mainData .lobbyMoreLinksContainer a, #siteOnly .mainData .lobbyMoreLinksContainer a i, #siteOnly .ms-listviewtable .megeraButton * {
+	color: #3d7929 !important;
+}
+.siteOnly .mainData .ms-rteElement-H2, .siteOnly .mainData .ms-rteElement-H2 *, .siteOnly .mainData .ms-rtestate-field h2, .siteOnly .mainData .ms-rtestate-field h2 *, .siteOnly .mainData .mainContent h2, .siteOnly .mainData .mainContent h2 *, .siteOnly .mainData #onetIDListForm h2, .siteOnly .mainData #onetIDListForm h2 *, .siteOnly .mainData .article-content h2, .siteOnly .mainData .article-content h2 *, .siteOnly .mainData .ms-rteElement-H2B, .siteOnly .mainData .ms-rteElement-H2B * {
+	color: #3d7929 !important;
+}
+.siteOnly .mainData .ms-rteElement-H3, .siteOnly .mainData .ms-rteElement-H3 *, .siteOnly .mainData .mainContent h3, .siteOnly .mainData .mainContent h3 *, .siteOnly .mainData .ms-rtestate-field h3, .siteOnly .mainData .ms-rtestate-field h3 *, .siteOnly .mainData #onetIDListForm h3, .siteOnly .mainData .article-content h3, .siteOnly .mainData .ms-rteElement-H3B, .siteOnly .mainData #onetIDListForm h3 *, .siteOnly .mainData .article-content h3 *, .siteOnly .mainData .ms-rteElement-H3B * {
+	color: black !important;
+}
+.siteOnly .mainData .ms-rteElement-H4, .siteOnly .mainData .ms-rteElement-H4 *, .siteOnly .mainData .mainContent h4, .siteOnly .mainData .mainContent h4 *, .siteOnly .mainData .ms-rtestate-field h4, .siteOnly .mainData .ms-rtestate-field h4 *, .siteOnly .mainData #onetIDListForm h4, .siteOnly .mainData .article-content h4, .siteOnly .mainData .ms-rteElement-H4B, .siteOnly .mainData #onetIDListForm h4 *, .siteOnly .mainData .article-content h4 *, .siteOnly .mainData .ms-rteElement-H4B * {
+	color: black !important;
+}
+.siteOnly .mainData .ms-rteElement-H2B, .siteOnly .mainData .ms-rteElement-H2B * {
+	color: #3d7929 !important;
+}
+.siteOnly .mainData .ms-rteElement-H3B, .siteOnly .mainData .ms-rteElement-H3B * {
+	color: black !important;
+}
+.siteOnly .mainData .ms-rteElement-H4B, .siteOnly .mainData .ms-rteElement-H4B * {
+	color: black !important;
+}
+#siteOnly .mainData ul li {
+	background-image: url("/SiteCollectionImages/arrowSmallGreen.png") !important;
+	padding-right: 30px !important;
+}
+#siteOnly .mainData ul ul li, #siteOnly .mainData ol ul li {
+	background-image: url("/SiteCollectionImages/arrowSmallGreen1.png") !important;
+	padding-right: 15px !important;
+}
+#siteOnly .mainData .iBoxBullet ul li, #siteOnly .mainData .iBoxBullet ul ul li, #siteOnly .mainData ol li, #siteOnly .mainData ul ol li, #siteOnly .mainData ol ul li {
+	background-image: none !important;
+	padding-right: 0px !important;
+}
+#siteOnly .mainData li.killLI, #siteOnly .mainData ul.killUL {
+	margin: 0px !important;
+	padding: 0px !important;
+	list-style-image: none !important;
+	list-style-type: none !important;
+	background-image: none !important;
+}
+#siteOnly .mainData .txt ul li {
+	background-image: url("/SiteCollectionImages/arrowSmallGreen.png") !important;
+	background-repeat: no-repeat !important;
+	background-position: right top 5px !important;
+	padding-right: 30px !important;
+}
+#siteOnly .mainData .txt ul ul li, #siteOnly .mainData .txt ol ul li {
+	background-image: url("/SiteCollectionImages/arrowSmallGreen1.png") !important;
+	background-repeat: no-repeat !important;
+	background-position: right top 5px !important;
+	padding-right: 15px !important;
+}
+#siteOnly .mainData ol li, #siteOnly .mainData ul ol li, #siteOnly .mainData ol ul li {
+	background-image: none !important;
+	padding-right: 0px !important;
+}
+#siteOnly .mainData .txt li.killLI, #siteOnly .mainData .txt ul ul li.killLI, #siteOnly .mainData .txt ol ul li.killLI {
+	margin: 0px !important;
+	padding: 0px !important;
+	list-style-image: none !important;
+	list-style-type: none !important;
+	background-image: none !important;
+}

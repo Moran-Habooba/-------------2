@@ -1,0 +1,226 @@
+﻿.ms-rteElement-H1B, .mainContent h2, .article-content h2, .ms-rteElement-H2B, #onetIDListForm h2, .ms-rteElement-H2B, .ms-rtestate-field h2, .mainContent h3, .article-content h3, .ms-rteElement-H3B, #onetIDListForm h3, .ms-rteElement-H3B, .ms-rtestate-field h3, .mainContent h4, .article-content h4, .ms-rteElement-H4B, #onetIDListForm h4, .ms-rteElement-H4B, .ms-rtestate-field h4 {
+	margin: 0px;
+	padding: 0px;
+	line-height: 100% !important;
+	font-style: normal !important;
+	font-weight: bold !important;
+	font-family: AlefBold !important;
+}
+.mainContent h2 *, .article-content h2 *, .ms-rteElement-H2B *, #onetIDListForm h2 *, .ms-rteElement-H2B *, .ms-rtestate-field h2 *, .mainContent h3 *, .article-content h3 *, .ms-rteElement-H3B *, #onetIDListForm h3 *, .ms-rteElement-H3B *, .ms-rtestate-field h3 *, .mainContent h4 *, .article-content h4 *, .ms-rteElement-H4B *, #onetIDListForm h4 *, .ms-rteElement-H4B *, .ms-rtestate-field h4 * {
+	line-height: 100% !important;
+	font-style: normal !important;
+	font-weight: bold !important;
+	font-family: AlefBold !important;
+}
+.mainContent h2 .fa, .article-content h2 .fa, .ms-rteElement-H2B .fa, #onetIDListForm h2 .fa, .ms-rteElement-H2B .fa, .ms-rtestate-field h2 .fa, .mainContent h3 .fa, .article-content h3 .fa, .ms-rteElement-H3B .fa, #onetIDListForm h3 .fa, .ms-rteElement-H3B .fa, .ms-rtestate-field h3 .fa, .mainContent h4 .fa, .article-content h4 .fa, .ms-rteElement-H4B .fa, #onetIDListForm h4 .fa, .ms-rteElement-H4B .fa, .ms-rtestate-field h4 .fa {
+	font-family: "FontAwesome","Font Awesome 5 Brands","Font Awesome 5 Pro" !important;
+}
+.mainContent h2, .article-content h2, .ms-rteElement-H2B, #onetIDListForm h2, .ms-rteElement-H2B, .ms-rtestate-field h2, .mainContent h3, .article-content h3, .ms-rteElement-H3B, #onetIDListForm h3, .ms-rteElement-H3B, .ms-rtestate-field h3, .mainContent h4, .article-content h4, .ms-rteElement-H4B, #onetIDListForm h4, .ms-rteElement-H4B, .ms-rtestate-field h4 {
+	margin-bottom: 10px !important;
+	margin-top: 20px !important;
+}
+.ms-rteElement-H2, .ms-rteElement-H2 *, .ms-rtestate-field h2, .ms-rtestate-field h2 *, .mainContent h2, .mainContent h2 *, #onetIDListForm h2, #onetIDListForm h2 *, .article-content h2, .article-content h2 *, .ms-rteElement-H2B, .ms-rteElement-H2B * {
+	font-size: 32px !important;
+	color: #ad2331 !important;
+}
+.ms-rteElement-H3, .ms-rteElement-H3 *, .mainContent h3, .mainContent h3 *, .ms-rtestate-field h3, .ms-rtestate-field h3 *, #onetIDListForm h3, .article-content h3, .ms-rteElement-H3B, #onetIDListForm h3 *, .article-content h3 *, .ms-rteElement-H3B * {
+	font-size: 28px !important;
+	color: black !important;
+}
+.ms-rteElement-H4, .ms-rteElement-H4 *, .mainContent h4, .mainContent h4 *, .ms-rtestate-field h4, .ms-rtestate-field h4 *, #onetIDListForm h4, .article-content h4, .ms-rteElement-H4B, #onetIDListForm h4 *, .article-content h4 *, .ms-rteElement-H4B * {
+	font-size: 24px !important;
+	color: black !important;
+}
+.ms-rteElement-H2B, .ms-rteElement-H2B * {
+	color: #ad2331 !important;
+}
+.ms-rteElement-H3B, .ms-rteElement-H3B * {
+	color: black !important;
+}
+.ms-rteElement-H4B, .ms-rteElement-H4B * {
+	color: black !important;
+}
+.ms-rteElement-LeftBoxNo {
+	-ms-name: "קופסה לצד שמאל";
+	background-color: #3b3a3c;
+	border-radius: 5px;
+	padding: 20px;
+}
+.ms-rteElement-LeftBoxNo, .ms-rteElement-LeftBoxNo *, .ms-rtestate-field .ms-rteElement-LeftBoxNo * {
+	color: white !important;
+}
+.ms-rteTable-Design5 {
+	-ms-name: "טבלה לתמונות בלבד 1";
+	box-sizing: border-box !important;
+	width: 100% !important;
+	height: auto !important;
+}
+.ms-rteTable-Design5 td {
+	padding: 10px;
+	box-sizing: border-box !important;
+	vertical-align: top !important;
+	height: auto !important;
+	text-align: center;
+}
+.ms-rteTable-Design5 td img {
+	width: auto !important;
+	height: auto !important;
+	max-width: 100% !important;
+}
+.ms-rteTable-Design1 {
+	-ms-name: "טבלה תואמת אתר 1";
+	box-sizing: border-box !important;
+	width: 100% !important;
+	height: auto !important;
+}
+.ms-rteTable-Design1 td {
+	padding: 10px;
+	box-sizing: border-box !important;
+	vertical-align: top !important;
+	width: auto !important;
+	height: auto !important;
+}
+.ms-rteTable-Design1 th {
+	text-align: right !important;
+	padding: 10px !important;
+	box-sizing: border-box !important;
+	white-space: normal !important;
+	width: auto !important;
+	height: auto !important;
+}
+.ms-rteTable-Design1 th, .ms-rteTable-Design1 th * {
+	font-size: 20px !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-family: AlefBold !important;
+	white-space: nowrap !important;
+}
+.ms-rteTable-Design1 .ms-rteTableHeaderRow-Design1 {
+	background-color: #3b3a3c !important;
+}
+.ms-rteTable-Design1 .ms-rteTableEvenRow-Design1 {
+	background-color: #f3f2f3;
+}
+.ms-rteTable-Design1 .ms-rteTableOddRow-Design1 {
+	background-color: white;
+}
+.ms-rteTable-Design1 th:first-child {
+	border-top-right-radius: 5px !important;
+	border-bottom-right-radius: 5px !important;
+}
+.ms-rteTable-Design1 th:last-child {
+	border-top-left-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+}
+.ms-rteTable-Design1 td:first-child {
+	border-top-right-radius: 5px !important;
+	border-bottom-right-radius: 5px !important;
+}
+.ms-rteTable-Design1 td:last-child {
+	border-top-left-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+}
+.ms-listviewtable {
+	width: 100%;
+	box-sizing: border-box !important;
+	border-collapse: collapse !important;
+}
+.ms-listviewtable tr {
+	background-color: white !important;
+}
+.ms-listviewtable .ms-alternating {
+	background-color: #f3f2f3 !important;
+}
+.ms-listviewtable .ms-viewheadertr {
+	background-color: #3b3a3c !important;
+}
+.siteOnly .ms-listviewtable th, .siteOnly .ms-listviewtable .ms-viewheadertr .ms-headerSortTitleLink, .siteOnly .ms-listviewtable .ms-viewheadertr .ms-vh2-nofilter span, .siteOnly .ms-listviewtable .ms-viewheadertr .ms-vh2-nofilter a, .siteOnly .ms-listviewtable .ms-vh2-nograd, .siteOnly .ms-vh-div span, .siteOnly .ms-listviewtable .ms-vh-div div {
+	font-size: 20px !important;
+	color: white !important;
+	font-weight: bold !important;
+	font-family: AlefBold !important;
+	white-space: nowrap !important;
+}
+.ms-listviewtable td {
+	padding: 10px !important;
+	box-sizing: border-box !important;
+	vertical-align: top !important;
+}
+.ms-listviewtable th {
+	padding: 10px;
+	text-align: right !important;
+	box-sizing: border-box !important;
+	white-space: normal !important;
+}
+.ms-listviewtable th:first-child {
+	border-right-style: none !important;
+}
+.ms-listviewtable th:first-child {
+	border-top-right-radius: 5px !important;
+	border-bottom-right-radius: 5px !important;
+}
+.ms-listviewtable th:last-child {
+	border-top-left-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+}
+.ms-listviewtable td:first-child {
+	border-top-right-radius: 5px !important;
+	border-bottom-right-radius: 5px !important;
+}
+.ms-listviewtable td:last-child {
+	border-top-left-radius: 5px !important;
+	border-bottom-left-radius: 5px !important;
+}
+.ms-listviewtable tr:nth-child(n+2):hover, .ms-rteTable-Design1 tr:nth-child(n+2):hover {
+	background-color: #e4e4e4 !important;
+}
+p {
+	margin-top: 10px !important;
+	margin-bottom: 20px !important;
+}
+.ms-rteElement-Emergency {
+	-ms-name: "קופסה-חירום";
+	border-radius: 5px;
+	background-image: url("/SiteCollectionImages/bannerHerum.png");
+	background-repeat: no-repeat;
+	background-size: cover;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	background-color: #f3f2f3;
+}
+.ms-rteElement-Emergency * {
+	font-size: 20px !important;
+}
+.siteOnly .ttlIcon {
+	padding-left: 10px !important;
+	font-size: 40px !important;
+	font-weight: normal !important;
+}
+.siteOnly .ms-rteFontSize-1 {
+	font-size: 22px !important;
+}
+.siteOnly .ms-rteFontSize-2 {
+	font-size: 28px !important;
+}
+.siteOnly .ms-rteFontSize-3 {
+	font-size: 32px !important;
+}
+.siteOnly .ms-rteFontSize-4 {
+	font-size: 36px !important;
+}
+.siteOnly .ms-rteFontSize-5 {
+	font-size: 40px !important;
+}
+.siteOnly .ms-rteFontSize-6 {
+	font-size: 46px !important;
+}
+.siteOnly .ms-rteFontSize-7 {
+	font-size: 50px !important;
+}
+.siteOnly .ms-rteFontSize-8 {
+	font-size: 55px !important;
+}
+.ms-cui-row-tworow[id='Ribbon.EditingTools.CPEditTab.Font-Large-0-0'], .ms-cui-strip[id='Ribbon.EditingTools.CPEditTab.Font.Fonts-Medium'], .ms-cui-strip[id='Ribbon.EditingTools.CPEditTab.Font.Fonts'], .ms-cui-strip[id='Ribbon.EditingTools.CPEditTab.Font-Large-0-1-1'] {
+	display: none !important;
+}

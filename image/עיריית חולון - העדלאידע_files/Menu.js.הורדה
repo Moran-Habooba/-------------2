@@ -1,0 +1,305 @@
+﻿var foundTree = false;
+var webAbsoluteUrl = "";
+var siteAbsoluteUrl, serverRequestPath, globalProvider, currentProvider, headers;
+
+function initMenuAsync(){
+	if(webAbsoluteUrl != "") return;
+	webAbsoluteUrl = _spPageContextInfo.webAbsoluteUrl;
+	siteAbsoluteUrl = _spPageContextInfo.siteAbsoluteUrl;
+	serverRequestPath = _spPageContextInfo.serverRequestPath.toLowerCase().replace("/pages/default.aspx", "");
+	globalProvider = "/_api/navigation/menustate?mapprovidername='GlobalNavigationSwitchableProvider'";
+	currentProvider = "/_api/navigation/menustate?mapprovidername='CurrentNavigationSwitchableProvider'";
+	headers = { "accept": "application/json;odata=verbose", "content-type": "application/json;odata=verbose" };
+}
+
+function getMobileMenuAsync(web){
+	if($("#topMobMenuRoot li").length <= 0){
+		initMenuAsync();
+		getNavigationCurrent(siteAbsoluteUrl + web, printNodesMobile, logError);			
+	}
+	else accOpenMobMenu();
+}
+
+function getTopMenuAsync(web){
+	if($("#rootMenuTop").length <= 0) return;
+	$(".FloatingMenuWebPart").addClass("rightMenu");
+	initMenuAsync();
+	getNavigation(siteAbsoluteUrl + web, printNodesTop, logError);
+}
+
+function getMobTopMenuTitleAsync(){
+	if($(".mobTopMenu").length <=0) return;
+	
+	initMenuAsync();
+	var path = _spPageContextInfo.webServerRelativeUrl;
+	var webServerRelativeUrlArray = path.split("/");	
+	if(webServerRelativeUrlArray.length > 1) path = "/" + webServerRelativeUrlArray[1];
+	if(path == "/"){		
+		$(".mobTopMenu").remove();
+		return;
+	}
+	getNavigationCurrent(path, printNodesTopMenuTitle, logError);
+}
+
+function printNodesMobile(data){
+	if($("#topMobMenuRoot").length <= 0) return;
+	var filteredNodes = $($.grep(data.d.MenuState.Nodes.results, function(node) { return !node.IsHidden && node.Title!="לאחרונה" && node.Title!="English" && node.Title!="כל העדכונים" && node.Title!="For all updates";}));
+
+    filteredNodes.each(function(index, parent) {	
+	    var pos = (index+1);
+		var liRoot = $("<li role='menubar' pos='" + pos + "' class='liRoot' aria-expanded='false'></li>");
+		var parentNodeRoot = $("<div class='divTable divTableFull'><div class='divTableRow'><div class='divTableCell divTableCellTop'><a class='fa fa-chevron-circle-left collapser collapser" + pos + "' href='javascript:collapseMenu(\"" + pos + "\")' aria-label='פתח תפריט - " + parent.Title + "' title='פתח תפריט - " + parent.Title + "'></a></div><div class='divTableCell divTableCellFull'></div></div></div>");
+		
+		parentNodeRoot.find(".divTableCellFull").append(getLink(parent).attr("parent", "0").attr("class", "lnkRoot").attr("pos", pos));
+	    liRoot.append(parentNodeRoot);
+	    $("#topMobMenuRoot").append(liRoot);	    		
+		
+		var urlChilds1 = (parent.SimpleUrl);
+		var ulChilds1 = $("<ul aria-label='תפריט שני' role='menu' class='ulChilds ulChilds1'></ul>");
+		var subMenu1 = $("<div class='subMenu subMenu" + pos + " displayNone' aria-hidden='true' role='group'></div>");		
+		
+		if(!((parent.CustomProperties.results[0].Value) != 'AuthoredLinkPlain' && urlChilds1 != "")) parentNodeRoot.find(".divTableCellTop a").attr("href", (parent.SimpleUrl));
+  		if((parent.CustomProperties.results[0].Value) != 'AuthoredLinkPlain' && urlChilds1 != ""){
+  			subMenu1.append(ulChilds1);
+			liRoot.append(subMenu1);
+		    $.ajax({
+		     	type: "GET",		     	
+		      	headers: headers,
+		      	url: siteAbsoluteUrl + urlChilds1 + currentProvider,
+		      	success: function(data1){
+		      		try{
+			      		var filteredNodes1 = $($.grep(data1.d.MenuState.Nodes.results, function(node) { return !node.IsHidden && node.Title!="לאחרונה" && node.Title!="English" && node.Title!="כל העדכונים" && node.Title!="For all updates"; }));
+			    						    		
+			    		if(filteredNodes1.length <= 0){
+			    			subMenu1.remove();
+					 		parentNodeRoot.find(".divTableCellTop").remove();
+			    		}
+			    		
+					   	filteredNodes1.each(function(index1, child1) {					   		
+					    	var pos1 = pos + "-" + (index1+1);
+					    	var liChilds1 = $("<li role='menuitem' pos='" + pos1 + "' class='liChilds liChilds1' aria-expanded='false'></li>");
+					    	var parentNode1 = $("<div class='divTable divTableFull'><div class='divTableRow'><div class='divTableCell divTableCellTop'><a class='fa fa-chevron-circle-left collapser collapser" + pos1 + "' href='javascript:collapseMenu(\"" + pos1 + "\")' aria-label='פתח תפריט - " + parent.Title + "' title='פתח תפריט - " + parent.Title + "'></a></div><div class='divTableCell divTableCellFull'></div></div></div>");
+					    	
+				    		parentNode1.find(".divTableCellFull").append(getLink(child1).attr("parent", pos).attr("class", "lnkChilds lnkChilds1").attr("pos", pos1));
+						    liChilds1.append(parentNode1);
+					    	ulChilds1.append(liChilds1);
+					    	
+					    	var urlChilds2 = (child1.SimpleUrl);					    						    								
+							if(!((child1.CustomProperties.results[0].Value) != 'AuthoredLinkPlain' && urlChilds2 != "")) parentNode1.find(".divTableCellTop a").attr("href", (child1.SimpleUrl));
+					  		if((child1.CustomProperties.results[0].Value) != 'AuthoredLinkPlain' && urlChilds2 != ""){	
+					  			var ulChilds2 = $("<ul aria-label='תפריט שלישי' role='menu' class='ulChilds ulChilds2'></ul>");
+								var subMenu2 = $("<div class='subMenu subMenu" + pos1 + " displayNone' aria-hidden='true' role='group'></div>");								
+								subMenu2.append(ulChilds2);
+								liChilds1.append(subMenu2);
+								
+							    $.ajax({
+							     	type: "GET",
+							      	headers: headers,
+							      	url: siteAbsoluteUrl + urlChilds2 + currentProvider,
+							      	success: function(data2){
+							      		try{
+								      		var filteredNodes2 = $($.grep(data2.d.MenuState.Nodes.results, function(node) { return !node.IsHidden && node.Title!="לאחרונה" && node.Title!="English" && node.Title!="כל העדכונים" && node.Title!="For all updates"; }));
+								    		
+								    		if(filteredNodes2.length <= 0){
+									    		subMenu2.remove();
+												parentNode1.find(".divTableCellTop").remove();
+									    	}
+
+										   	filteredNodes2.each(function(index2, child2) {
+										    	var pos2 = pos1 + "-" + (index2+1);
+										    	var liChilds2 = $("<li role='menuitem' pos='" + pos2 + "' class='liChilds liChilds2' aria-expanded='false'></li>");	
+										    	var parentNode2 = $("<div class='divTable divTableFull'><div class='divTableRow'><div class='divTableCell divTableCellTop'><a href='" + (child2.SimpleUrl) + "' class='fa fa-chevron-circle-left collapser collapser" + pos2 + "'></a></div><div class='divTableCell divTableCellFull'></div></div></div>");										    	
+										    	
+										    	parentNode2.find(".divTableCellFull").append(getLink(child2).attr("parent", pos1).attr("class", "lnkChilds lnkChilds2").attr("pos", pos2));
+											    liChilds2.append(parentNode2);
+										    	ulChilds2.append(liChilds2);										    													
+										 	});
+									 	}
+									 	catch(e){
+									 		if(subMenu2.find("li").length <= 0){
+												subMenu2.remove();
+										 		parentNode1.find(".divTableCellTop a").attr("href", (child1.SimpleUrl));
+											}
+									 	}
+									}
+								});
+							}														   						    						    	
+					 	});
+				 	}
+				 	catch(e){ 
+				 		if(subMenu1.find("li").length <=0){
+				 			subMenu1.remove();
+				 			parentNodeRoot.find(".divTableCellTop a").attr("href", (parent.SimpleUrl));
+				 		}
+				 	}				 					 		 					 					 					 	
+				}				
+			});									
+		}		
+	});		
+	
+	setTimeout("accOpenMobMenu()", 200);
+	setTimeout("setSelectedMenu()", 1000);	
+	setTimeout("setSelectedMenu()", 2000);
+	setTimeout("setSelectedMenu()", 3000);
+	setTimeout("setSelectedMenu()", 4000);	
+	setTimeout("setSelectedMenu()", 5000);	
+	setTimeout("setSelectedMenu()", 6000);	
+	setTimeout("setSelectedMenu()", 8000);	
+}
+
+function setSelectedMenu(){
+if(foundTree) return;
+var selected = $("#topMobMenuRoot a[lowHref='" + serverRequestPath + "']");
+
+	if(selected.length > 0){
+		selected = $(selected[0]);
+		selected.addClass("selectedItem");
+		var parent = selected.attr("parent");
+		foundTree = true;
+		
+		if(parent == "0") return;
+		var parentArray = parent.split("-");
+		collapseMenu(parent);						
+		if(parentArray.length > 1) collapseMenu(parentArray[0]);
+		if(parentArray.length > 2) collapseMenu(parentArray[0] + "-" + parentArray[1]);						
+	}
+}
+
+function collapseMenu(pos){
+	if($("#topMobMenuRoot .subMenu" + pos).css("display") == "none"){
+		$("#topMobMenuRoot .subMenu" + pos).slideDown("fast").attr("aria-hidden", "false");
+		$("#topMobMenuRoot li[pos='" + pos + "']").attr("aria-expanded", "true");				
+		$("#topMobMenuRoot .collapser" + pos).addClass("fa-chevron-circle-up").removeClass("fa-chevron-circle-left");
+		
+		var ttl = $("#topMobMenuRoot .collapser" + pos).attr("aria-label").replace("פתח", "סגור");
+		$("#topMobMenuRoot .collapser" + pos).attr("aria-label", ttl).attr("title", ttl)
+	}
+	else{
+		$("#topMobMenuRoot .subMenu" + pos).slideUp("fast").attr("aria-hidden", "false");
+		$("#topMobMenuRoot li[pos='" + pos + "']").attr("aria-expanded", "false");
+		$("#topMobMenuRoot .collapser" + pos).addClass("fa-chevron-circle-left").removeClass("fa-chevron-circle-up");
+		
+		var ttl = $("#topMobMenuRoot .collapser" + pos).attr("aria-label").replace("סגור", "פתח");
+		$("#topMobMenuRoot .collapser" + pos).attr("aria-label", ttl).attr("title", ttl)
+	}
+}
+
+function printNodesTop(data){
+	var filteredNodes = $.grep(data.d.MenuState.Nodes.results, function(node) { return !node.IsHidden; });     	
+	
+	$(filteredNodes).each(function(i, parent) {	
+		var pos = i+1;
+		var li = $("<li class='rootMenuItem' id='rootMenuItem" + pos + "' role='menubar'></li>");				
+		var a = $("<a href='" + (parent.SimpleUrl) + "' onmouseover='showMenu(\"" + pos +"\")' onfocus='showMenu(\"" + pos + "\")' onmouseout='hideMenu(\"" + pos + "\")' onblur='hideMenu(\"" + pos + "\")' class='rootMenuItemLink'><span>" + parent.Title + "</span></a>");		
+		
+		if(pos == 1) a.addClass("icon-holonLatoshavim");
+		if(pos == 2) a.addClass("icon-holonLamevalim");
+		if(pos == 3) a.addClass("icon-holonLaasakim");
+		if(pos == 4) a.addClass("icon-haeerHolon");
+						
+		li.append(a);
+		
+		$("#rootMenuTop").append(li);
+												
+		var urlChilds = (parent.SimpleUrl);
+  		if((parent.CustomProperties.results[0].Value) != 'AuthoredLinkPlain' && urlChilds != ""){  		
+  			var subMenuEnv = $("<div class='subMenuEnv displayNone' pos='" + pos + "' id='subMenuEnv" + pos + "' aria-expanded='false' aria-hidden='true' onmouseover='showMenu(\"" + pos + "\")' onmouseout='hideMenu(\"" + pos + "\")'><div class='body'><ul class='subMenu' role='menu' aria-label='תפריט עליון משני'></ul></div></div>");
+  			var subMenu = subMenuEnv.find(".subMenu");
+  			
+  			li.append(subMenuEnv);
+			
+		    $.ajax({
+		     	type: "GET",		     	
+		      	headers: headers,
+		      	url: siteAbsoluteUrl + urlChilds + globalProvider,
+		      	success: function(data2){
+		      		try{		      			
+			      		var filteredNodes1 = $.grep(data2.d.MenuState.Nodes.results, function(node) { return !node.IsHidden; });     
+			    					    		
+					    $(filteredNodes1).each(function(j, child) {	
+					    	var liChild = $("<li class='subMenuItem' role='menuitem'></li>");
+					    	
+					    	liChild.append(getLink(child).attr("class", "subMenuItemLink").attr("pos", ""));
+						    subMenu.append(liChild); 	    	   	    	        	    
+						});
+					}
+					catch(e){}
+		      	},
+		      	failure: logError	      	
+		   	});
+	   	}	   	
+	});
+	
+	$(".subMenuEnv").css("top", ($("header").height() - 8) + "px");
+	setTimeout("initRootMenu()", 100);
+}
+
+function setTopLevelMenu(){
+	$(".subMenuEnv").css("top", ($("header").height() - 6) + "px");
+}
+
+function printNodesTopMenuTitle(data){
+	try{
+		var root = data.d.MenuState;
+		$(".mobTopMenu a").attr("title", root.StartingNodeTitle).attr("href", root.SimpleUrl).html(root.StartingNodeTitle)	
+	}
+	catch(e){ $(".mobTopMenu").remove();}
+}
+
+function printNodes(data) {	
+	if($("#menuRoot").length <= 0) return;
+	
+	var filteredNodes = $.grep(data.d.MenuState.Nodes.results, function(node) { return !node.IsHidden; });     
+	    
+    $(filteredNodes).each(function(i, parent) {		
+		var liRoot = $("<li role='menubar'></li>");				
+		var ulChilds = $("<ul aria-label='תפריט שני' role='menu'></ul>");
+		
+	    ulChilds.append(getLi(true, parent));
+	    
+	    $(parent.Nodes.results).each(function(j, child) {
+			ulChilds.append(getLi(false, child));
+	    });	 	   		   	  		
+   	
+	    liRoot.append(ulChilds);
+	    $("#menuRoot").append(liRoot);	    	    
+	   	
+	    var urlChilds = (parent.SimpleUrl);
+	    var type = (parent.CustomProperties.results[0].Value); 
+  		if(type != 'AuthoredLinkPlain' && urlChilds != ""){
+		    $.ajax({
+		     	type: "GET",		     	
+		      	headers: headers,
+		      	url: siteAbsoluteUrl + urlChilds + globalProvider,
+		      	success: function(data2){
+		      		var filteredNodes = $.grep(data2.d.MenuState.Nodes.results, function(node) { return !node.IsHidden; });     
+		    
+				    $(filteredNodes).each(function(i, child) {	    
+					    ulChilds.append(getLi(false, child)); 	    	   	    	        	    
+					});
+		      	},
+		      	failure: logError	      	
+		   	});
+	   	}
+	});
+}
+
+
+function getLink(item){
+	var a = $("<a></a>");
+	var ttl = item.Title;
+	var url = (item.SimpleUrl);
+	var itemTarget = (item.CustomProperties.results[2].Value); 	
+	
+	if(url == "") url = "javascript:void(0)";
+	a.attr("href", url).attr("lowHref", url.toLowerCase()).html(ttl);
+    if (itemTarget != "") a.attr("target", itemTarget);	          
+
+	return a;
+}
+
+function getJson(endpointUrl, success, failure) {$.ajax({ type: "GET", headers: headers, url: endpointUrl, success: success, failure: failure });}
+function getNavigationCurrent(webUrl, success, failure) { getJson(webUrl + currentProvider, success, failure);}
+function getNavigation(webUrl, success, failure) { getJson(webUrl + globalProvider, success, failure);}
+function logError(error) { console.log(JSON.stringify(error));}
+function getLi(item){ return $("<li role='menuitem'></li>").append(getLink(item));}
